@@ -25,6 +25,8 @@ jobs:
 
       - name: Install frontend dependencies
         run: npm ci
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build frontend
         run: npm run build
