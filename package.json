@@ -1,0 +1,32 @@
+{
+  "name": "hp-plugin-wordpress",
+  "version": "0.0.1",
+  "description": "Naba HockeyData Wordpress plugin.",
+  "type": "module",
+  "lastDependencyUpdate": "31.03.2026",
+  "scripts": {
+    "build": "cp -R node_modules/@naba/hd-vue-gamecenter/dist/* frontend/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:naba-network/hp-plugin-wordpress.git"
+  },
+  "engines": {
+    "node": ">=22 <25",
+    "npm": ">=10 <12"
+  },
+  "keywords": [
+    "vue",
+    "vuejs",
+    "valantic"
+  ],
+  "author": "Nachbauer GmbH",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/naba-network/hp-plugin-wordpress/issues"
+  },
+  "homepage": "https://github.com/naba-network/hp-plugin-wordpress",
+  "dependencies": {
+    "@naba/hd-vue-gamecenter": "github:naba-network/hd-vue-gamecenter#main"
+  }
+}

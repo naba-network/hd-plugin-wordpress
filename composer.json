@@ -1,0 +1,30 @@
+{
+    "name": "nachbauer/hd-plugin-wordpress",
+    "description": "The hockey game center widget for WordPress.",
+    "license": "MIT",
+    "type": "wordpress-plugin",
+    "config": {
+        "platform": {
+            "php": "8.3.30"
+        }
+    },
+    "require": {
+        "php": ">=8.3",
+        "yahnis-elsts/plugin-update-checker": "^5.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "NabaHdwp\\": "src/"
+        }
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1",
+        "friendsofphp/php-cs-fixer": "^3.94",
+        "szepeviktor/phpstan-wordpress": "^2.0"
+    },
+    "scripts": {
+        "phpstan": "phpstan analyze --memory-limit=1G",
+        "cs-check": "php-cs-fixer fix --dry-run --diff",
+        "cs-fix": "php-cs-fixer fix"
+    }
+}
