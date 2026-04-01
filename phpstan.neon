@@ -6,7 +6,7 @@ parameters:
 		- phpstan-bootstrap.php
 	paths:
 		- src
-		- naba-hdwp-widgets.php
+		- plugin.php
 	excludePaths:
 		analyse:
 			- vendor/
