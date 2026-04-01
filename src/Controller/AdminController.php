@@ -34,7 +34,7 @@ class AdminController
             // Main config and debug pages
             wp_enqueue_style('naba-hdwp-admin-base', NABA_HDWP_PLUGIN_URL . 'admin/css/admin-base-styles.css', [], $version);
             wp_enqueue_style('naba-hdwp-admin-settings', NABA_HDWP_PLUGIN_URL . 'admin/css/admin-settings.css', ['naba-hdwp-admin-base'], $version);
-            
+
             wp_enqueue_script('naba-hdwp-sortable', 'https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js', [], '1.15.0', true);
             wp_enqueue_script('naba-hdwp-admin-configurator', NABA_HDWP_PLUGIN_URL . 'admin/js/admin-league-configurator.js', ['naba-hdwp-sortable'], $version, true);
         }
