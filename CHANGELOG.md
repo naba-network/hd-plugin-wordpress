@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* [BUGFIX] Updated build script to create frontend directory before copying files.
 * [BUGFIX] Removed hardcoded `NODE_AUTH_TOKEN` from `.npmrc` to allow local `npm ci` after `npm login`.
 * [BUGFIX] Added `packages: read` permission to the GitHub Actions workflow to allow reading packages from GitHub Packages.
 

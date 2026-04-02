@@ -5,7 +5,11 @@
   "type": "module",
   "lastDependencyUpdate": "31.03.2026",
   "scripts": {
-    "build": "cp -R node_modules/@naba-network/hd-vue-gamecenter/dist/* frontend/"
+    "build": "npm run frontend:setup && npm run frontend:copy",
+    "frontend:setup": "npm run frontend:check && npm run frontend:cleanup",
+    "frontend:check": "mkdir -p frontend",
+    "frontend:cleanup": "rm -rf frontend/*",
+    "frontend:copy": "cp -R node_modules/@naba-network/hd-vue-gamecenter/dist/* frontend/"
   },
   "repository": {
     "type": "git",
