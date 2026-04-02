@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* [BUGFIX] Added `packages: read` permission to the GitHub Actions workflow to allow reading packages from GitHub Packages.
+
 * [FEATURE] Switched `@naba-network/hd-vue-gamecenter` dependency to use GitHub Packages NPM registry instead of Git repository URL.
 * [FEATURE] Updated GitHub Actions build pipeline to authenticate with GitHub Packages using `GITHUB_TOKEN`.
 * [Feature] Added GitHub Actions build pipeline to automatically build, package, and release `.zip` assets on new tags.
