@@ -19,12 +19,12 @@ jobs:
         with:
           node-version: '24'
           cache: npm
-
-      - name: Configure Git for private modules
-        run: git config --global url."https://${{ secrets.PRIVATE_REPO_PAT }}@github.com/naba-network/".insteadOf "ssh://git@github.com/naba-network/"
+          registry-url: 'https://npm.pkg.github.com'
 
       - name: Install frontend dependencies
         run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build frontend
         run: npm run build

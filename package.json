@@ -5,7 +5,7 @@
   "type": "module",
   "lastDependencyUpdate": "31.03.2026",
   "scripts": {
-    "build": "cp -R node_modules/@naba/hd-vue-gamecenter/dist/* frontend/"
+    "build": "cp -R node_modules/@naba-network/hd-vue-gamecenter/dist/* frontend/"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,6 @@
   },
   "homepage": "https://github.com/naba-network/hp-plugin-wordpress",
   "dependencies": {
-    "@naba/hd-vue-gamecenter": "github:naba-network/hd-vue-gamecenter#main"
+    "@naba-network/hd-vue-gamecenter": "~5.0.0"
   }
 }
