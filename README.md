@@ -63,3 +63,16 @@ This project uses `phpstan` and `php-cs-fixer` to maintain code quality. You can
 - **Check Code Formatting:** `composer cs-check`
 - **Fix Code Formatting:** `composer cs-fix`
 - **Run Static Analysis:** `composer phpstan`
+
+## Version Management
+
+To easily update the plugin version across `package.json`, `plugin.php`, `src/Controller/AdminController.php`, and `CHANGELOG.md`, use the built-in release script:
+
+```bash
+npm run release [major | minor | patch | <version>]
+```
+
+- `npm run release` (no arguments) bumps the **patch** version (e.g., `1.0.0` -> `1.0.1`).
+- `npm run release minor` bumps the **minor** version (e.g., `1.0.0` -> `1.1.0`).
+- `npm run release major` bumps the **major** version (e.g., `1.0.0` -> `2.0.0`).
+- `npm run release 2.5.0` sets the version explicitly to `2.5.0`.

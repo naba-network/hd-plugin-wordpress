@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* [FEATURE] Updated `update-version.js` to automatically calculate semver version bumps. It now accepts `major`, `minor`, `patch`, or no argument (defaults to `patch`). Usage: `npm run release [major|minor|patch|<version>]`.
+* [FEATURE] Added `update-version.js` script to automate updating the plugin version across `package.json`, `plugin.php`, `CHANGELOG.md`, and `AdminController.php`. Usage: `npm run release <version>`.
+
 * [BUGFIX] Updated build script to create frontend directory before copying files.
 * [BUGFIX] Removed hardcoded `NODE_AUTH_TOKEN` from `.npmrc` to allow local `npm ci` after `npm login`.
 * [BUGFIX] Added `packages: read` permission to the GitHub Actions workflow to allow reading packages from GitHub Packages.
