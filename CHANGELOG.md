@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+* [BUGFIX] Updated `build.sh` to explicitly read `.distinclude` item by item and copy contents using `rsync -aR` so that all directory contents are included properly in the release zip. Added `vendor/`, `CHANGELOG.md`, and `README.md` to `.distinclude`.
+
+* [FEATURE] Introduced `NABA_HDWP_VERSION` constant in `plugin.php` and updated `src/Controller/AdminController.php` to use it instead of reading `package.json`.
+* [BUGFIX] Updated `build.sh` to extract the correct version from `plugin.php` instead of the non-existent `naba-hdwp-widgets.php`.
+* [FEATURE] Updated `update-version.js` to automatically update the new `NABA_HDWP_VERSION` constant.
+
+* [FEATURE] Replaced `.distignore` with `.distinclude` in `build.sh` to explicitly define which files are included in the package rather than listing exclusions.
+
+* [FEATURE] Improved `release:commit` script in `package.json` to only commit tracked files and include a cleaner commit message format ("Release v0.0.1"). Usage: `npm run release:commit`.
+
+* [FEATURE] Added `release:tag` script in `package.json` to automatically create and push a git tag for the current version. Usage: `npm run release:tag`.
+
 * [BUGFIX] Added missing `release` script to `package.json` to enable `npm run release` command.
 
 * [FEATURE] Refactored `AdminController.php` to dynamically read the plugin version from `package.json` instead of using a hardcoded string.

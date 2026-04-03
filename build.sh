@@ -4,7 +4,7 @@
 set -e
 
 PLUGIN_SLUG="novastats-hockeydata"
-VERSION=$(grep "Version:" naba-hdwp-widgets.php | awk '{print $NF}')
+VERSION=$(grep "Version:" plugin.php | awk '{print $NF}')
 if [ -z "$VERSION" ]; then
     VERSION="latest"
 fi
@@ -22,9 +22,16 @@ mkdir -p "${BUILD_DIR}/${PLUGIN_SLUG}"
 echo "Installing production dependencies..."
 composer install --no-dev --optimize-autoloader
 
-# Copy files to build directory, respecting .distignore
+# Copy files to build directory, respecting .distinclude
 echo "Copying files..."
-rsync -av --exclude-from='.distignore' ./ "${BUILD_DIR}/${PLUGIN_SLUG}/"
+while IFS= read -r item; do
+    # Skip empty lines and comments
+    [[ -z "$item" || "$item" == \#* ]] && continue
+    # Only copy if the item exists
+    if [ -e "$item" ]; then
+        rsync -aR "$item" "${BUILD_DIR}/${PLUGIN_SLUG}/"
+    fi
+done < .distinclude
 
 # Create the zip file
 echo "Creating zip archive ${ZIP_NAME}..."

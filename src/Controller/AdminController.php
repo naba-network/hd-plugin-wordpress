@@ -26,12 +26,7 @@ class AdminController
             return;
         }
 
-        $packageJsonPath = dirname(__DIR__, 2) . '/package.json';
-        $version = '0.0.1'; // Fallback
-        if (file_exists($packageJsonPath)) {
-            $packageData = json_decode(file_get_contents($packageJsonPath), true);
-            $version = $packageData['version'] ?? '0.0.1';
-        }
+        $version = defined('NABA_HDWP_VERSION') ? NABA_HDWP_VERSION : '0.0.1';
 
         if (strpos($hook_suffix, 'naba_hdwp_options_documentation') !== false) {
             wp_enqueue_style('naba-hdwp-bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css', [], '5.3.8');

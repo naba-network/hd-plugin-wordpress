@@ -48,7 +48,7 @@ To easily package a production-ready `.zip` release without any development file
 ./build.sh
 ```
 
-This will automatically exclude files defined in `.distignore`, install production dependencies, package the plugin, and then restore your local development dependencies.
+This will automatically include only the files and directories explicitly defined in `.distinclude`, install production dependencies, package the plugin, and then restore your local development dependencies.
 
 ## Automatic Updates & Deployment
 
@@ -76,3 +76,15 @@ npm run release [major | minor | patch | <version>]
 - `npm run release minor` bumps the **minor** version (e.g., `1.0.0` -> `1.1.0`).
 - `npm run release major` bumps the **major** version (e.g., `1.0.0` -> `2.0.0`).
 - `npm run release 2.5.0` sets the version explicitly to `2.5.0`.
+
+To automatically commit your changes with a clean release message ("Release v1.0.0"):
+
+```bash
+npm run release:commit
+```
+
+To create and push a git tag matching the current version:
+
+```bash
+npm run release:tag
+```

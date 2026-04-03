@@ -6,11 +6,15 @@
   "lastDependencyUpdate": "31.03.2026",
   "scripts": {
     "release": "node update-version.js",
+    "release:commit": "git commit -am \"Release v$npm_package_version\"",
+    "release:tag": "git tag v$npm_package_version && git push origin tag v$npm_package_version",
     "build": "npm run frontend:setup && npm run frontend:copy",
     "frontend:setup": "npm run frontend:check && npm run frontend:cleanup",
     "frontend:check": "mkdir -p frontend",
     "frontend:cleanup": "rm -rf frontend/*",
-    "frontend:copy": "cp -R node_modules/@naba-network/hd-vue-gamecenter/dist/* frontend/"
+    "frontend:copy": "cp -R node_modules/@naba-network/hd-vue-gamecenter/dist/* frontend/",
+    "test": "composer cs-check && composer phpstan",
+    "test:fix": "composer cs-fix"
   },
   "repository": {
     "type": "git",

@@ -59,6 +59,7 @@ const pluginPhpPath = path.join(__dirname, 'plugin.php');
 try {
     let pluginPhp = fs.readFileSync(pluginPhpPath, 'utf8');
     pluginPhp = pluginPhp.replace(/\*\s+Version:\s+.*$/m, `* Version:     ${newVersion}`);
+    pluginPhp = pluginPhp.replace(/define\('NABA_HDWP_VERSION',\s+'[^']+'\);/g, `define('NABA_HDWP_VERSION', '${newVersion}');`);
     fs.writeFileSync(pluginPhpPath, pluginPhp);
     console.log('✅ Updated plugin.php');
 } catch (e) {
