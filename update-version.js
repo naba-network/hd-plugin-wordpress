@@ -65,18 +65,7 @@ try {
     console.error('❌ Failed to update plugin.php:', e.message);
 }
 
-// 3. Update src/Controller/AdminController.php
-const adminControllerPath = path.join(__dirname, 'src', 'Controller', 'AdminController.php');
-try {
-    let adminController = fs.readFileSync(adminControllerPath, 'utf8');
-    adminController = adminController.replace(/\$version\s*=\s*'[^']+';/, `$version = '${newVersion}';`);
-    fs.writeFileSync(adminControllerPath, adminController);
-    console.log('✅ Updated src/Controller/AdminController.php');
-} catch (e) {
-    console.error('❌ Failed to update src/Controller/AdminController.php:', e.message);
-}
-
-// 4. Update CHANGELOG.md
+// 3. Update CHANGELOG.md
 const changelogPath = path.join(__dirname, 'CHANGELOG.md');
 try {
     let changelog = fs.readFileSync(changelogPath, 'utf8');

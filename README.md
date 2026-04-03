@@ -66,7 +66,7 @@ This project uses `phpstan` and `php-cs-fixer` to maintain code quality. You can
 
 ## Version Management
 
-To easily update the plugin version across `package.json`, `plugin.php`, `src/Controller/AdminController.php`, and `CHANGELOG.md`, use the built-in release script:
+To easily update the plugin version across `package.json`, `plugin.php`, and `CHANGELOG.md`, use the built-in release script:
 
 ```bash
 npm run release [major | minor | patch | <version>]
