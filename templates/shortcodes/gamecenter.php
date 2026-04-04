@@ -7,5 +7,5 @@ defined('ABSPATH') || exit;
 </script>
 
 <div id="app">
-  <router-view></router-view>
+  <l-gamecenter />
 </div>
