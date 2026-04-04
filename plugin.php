@@ -4,7 +4,7 @@
  * Plugin Name: NovaStats HockeyData
  * Plugin URI:  https://nova-stats.com/
  * Description: The hockey game center widget for WordPress.
- * Version:     0.0.1
+ * Version:     0.0.3
  * Author:      Nachbauer GmbH
  * Author URI:  https://www.nachbauer.gmbh
  * Text Domain: hd-plugin-wordpress
@@ -58,7 +58,7 @@ class Plugin
 
     private function defineConstants(): void
     {
-        define('NABA_HDWP_VERSION', '0.0.1');
+        define('NABA_HDWP_VERSION', '0.0.3');
         define('NABA_HDWP_PLUGIN_NAME', 'hd-plugin-wordpress');
         define('NABA_HDWP_PLUGIN_URL', plugin_dir_url(__FILE__));
         define('NABA_HDWP_PLUGIN_PATH', plugin_dir_path(__FILE__));

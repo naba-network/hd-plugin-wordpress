@@ -16,3 +16,7 @@ if (!defined('NABA_HDWP_PLUGIN_URL')) {
 if (!defined('NABA_HDWP_PLUGIN_PATH')) {
     define('NABA_HDWP_PLUGIN_PATH', __DIR__ . '/');
 }
+
+if (!defined('NABA_HDWP_VERSION')) {
+    define('NABA_HDWP_VERSION', '0.0.1');
+}

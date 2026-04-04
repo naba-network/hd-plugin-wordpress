@@ -4,6 +4,7 @@ namespace NabaHdwp\Controller;
 
 defined('ABSPATH') || exit;
 
+use NabaHdwp\Constant\PluginConstants;
 use NabaHdwp\Helper\TemplateEngine;
 use NabaHdwp\Model\Settings;
 
@@ -26,7 +27,7 @@ class AdminController
             return;
         }
 
-        $version = defined('NABA_HDWP_VERSION') ? NABA_HDWP_VERSION : '0.0.1';
+        $version = PluginConstants::VERSION;
 
         if (strpos($hook_suffix, 'naba_hdwp_options_documentation') !== false) {
             wp_enqueue_style('naba-hdwp-bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css', [], '5.3.8');

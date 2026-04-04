@@ -1,6 +1,6 @@
 {
   "name": "hp-plugin-wordpress",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Naba HockeyData Wordpress plugin.",
   "type": "module",
   "lastDependencyUpdate": "31.03.2026",
@@ -14,8 +14,9 @@
     "frontend:cleanup": "rm -rf frontend/*",
     "frontend:copy": "cp -R node_modules/@naba-network/hd-vue-gamecenter/dist/* frontend/",
     "frontend:update": "npm install @naba-network/hd-vue-gamecenter@latest",
-    "test": "composer cs-check && composer phpstan",
-    "test:fix": "composer cs-fix"
+    "test": "composer cs-check && composer phpstan && composer test",
+    "test:fix": "composer cs-fix",
+    "test:unit": "vendor/bin/phpunit"
   },
   "repository": {
     "type": "git",

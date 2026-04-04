@@ -2,6 +2,24 @@
 
 ## Unreleased
 
+* [FEATURE] Introduced PHPUnit, Mockery, and BrainMonkey for robust unit testing of WordPress interactions without requiring a full WordPress installation. Added a comprehensive test suite for `VueService.php` to ensure asset enqueuing logic behaves correctly.
+* [FEATURE] Added `test:unit` script to `package.json` and a `test` script in `composer.json` to streamline the execution of tests (`npm run test:unit` or `composer test`).
+
+* [FEATURE] Refactored `VueService.php` to support module chunk preloading via `<link rel="modulepreload">` for faster frontend rendering.
+* [BUGFIX] Fixed manifest caching bug in `VueService.php` that occurred when multiple build types (`app` and `compact`) were enqueued on the same page.
+* [FEATURE] Replaced anonymous functions in `VueService.php` hooks with object-oriented methods and implemented a `hooksRegistered` flag to prevent duplicate hook execution.
+* [BUGFIX] Added proper JSON parsing error handling to `VueService.php`'s `loadManifest()` method.
+* [FEATURE] Centralized the plugin version lookup by adding `PluginConstants::VERSION` and refactored `AdminController.php` to rely on the interface instead of manual definitions.
+* [BUGFIX] Fixed an issue where the main script and styles were not output in the DOM when shortcodes were executed. Moved `manifest.json` hook from `wp_head` to `wp_footer` to guarantee output even if assets are enqueued late.
+* [BUGFIX] Corrected path construction in `VueService.php` using `rtrim()` to prevent double slashes that could cause `file_exists()` checks to fail in some server environments.
+
+### v0.0.3 (2026-04-04)
+
+* [FEATURE] Created `generate-test.php` script to mock WordPress functions and output a local `test.html` file to test the script and style enqueue logic without needing a WordPress instance.
+* [BUGFIX] Updated `PluginConstants.php` and `VueService.php` to use the correct `frontend/app` and `frontend/compact` paths instead of `wp` and `wpc` based on the new frontend build manifest location.
+
+### v0.0.2 (2026-04-04)
+
 * [BUGFIX] Adapted `VueService.php` asset enqueuing logic to match the new frontend build manifest structure, which removed `index.html` as the entry point and simplified chunk management.
 
 * [BUGFIX] Updated `build.sh` to explicitly read `.distinclude` item by item and copy contents using `rsync -aR` so that all directory contents are included properly in the release zip. Added `vendor/`, `CHANGELOG.md`, and `README.md` to `.distinclude`.

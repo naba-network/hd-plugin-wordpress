@@ -58,8 +58,9 @@ This plugin now features an integrated GitHub Actions build pipeline and automat
 - **Automatic Updates:** The plugin incorporates `plugin-update-checker` to connect directly to the GitHub repository (`naba-network/hd-plugin-wordpress`). When a new release is available, it appears in the WordPress admin panel alongside standard plugin updates, allowing for seamless updates.
 
 ### Code Quality and Linting
-This project uses `phpstan` and `php-cs-fixer` to maintain code quality. You can run the following commands:
+This project uses `phpstan` and `php-cs-fixer` to maintain code quality, alongside `PHPUnit` for testing. You can run the following commands:
 
+- **Run Unit Tests:** `composer test` or `npm run test:unit`
 - **Check Code Formatting:** `composer cs-check`
 - **Fix Code Formatting:** `composer cs-fix`
 - **Run Static Analysis:** `composer phpstan`
