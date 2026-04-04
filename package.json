@@ -38,6 +38,6 @@
   },
   "homepage": "https://github.com/naba-network/hp-plugin-wordpress",
   "dependencies": {
-    "@naba-network/hd-vue-gamecenter": "^5.0.2"
+    "@naba-network/hd-vue-gamecenter": "^5.0.4"
   }
 }
