@@ -38,14 +38,12 @@ class VueService
         $mainTsFileName = $type === 'app' ? 'src/main.ts' : 'src/main-compact.ts';
         $mainTsFile = $this->getVersionedDocument($mainTsFileName);
 
-        if ($mainTsFile) {
-            $scriptName = $this->getAssetIncludeName('scripts');
-            wp_enqueue_script($scriptName, $mainTsFile, [], $version, true);
-        }
+        // Add script files.
+        $scriptName = $this->getAssetIncludeName('scripts');
+        wp_enqueue_script($scriptName, $mainTsFile, [], $version, true);
 
-        if ($styleFile) {
-            wp_enqueue_style($this->getAssetIncludeName('styles'), $styleFile, [], $version);
-        }
+        // Add style files.
+        wp_enqueue_style($this->getAssetIncludeName('styles'), $styleFile, [], $version);
 
         $this->registerPreloadLinks($type, $mainTsFileName);
 
@@ -137,7 +135,8 @@ class VueService
     private function getVersionedDocument(string $fileName): ?string
     {
         if (!isset($this->manifests[$this->buildType]) || !isset($this->manifests[$this->buildType][$fileName]['file'])) {
-            return null;
+            // This file will not be found and lead to 404 in the browser but this helpful for debugging.
+            return $this->buildOutputPath($fileName);
         }
 
         return $this->buildOutputPath($this->manifests[$this->buildType][$fileName]['file']);
