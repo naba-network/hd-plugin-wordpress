@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* [BUGFIX] Adapted `VueService.php` asset enqueuing logic to match the new frontend build manifest structure, which removed `index.html` as the entry point and simplified chunk management.
+
 * [BUGFIX] Updated `build.sh` to explicitly read `.distinclude` item by item and copy contents using `rsync -aR` so that all directory contents are included properly in the release zip. Added `vendor/`, `CHANGELOG.md`, and `README.md` to `.distinclude`.
 
 * [FEATURE] Introduced `NABA_HDWP_VERSION` constant in `plugin.php` and updated `src/Controller/AdminController.php` to use it instead of reading `package.json`.

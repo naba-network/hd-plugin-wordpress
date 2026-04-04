@@ -43,7 +43,7 @@ class TeamPage
             ob_start();
 
             TemplateEngine::render('/templates/shortcodes/team-page.php', $data);
-            $this->vueService->enqueueAssets('wpc');
+            $this->vueService->enqueueAssets('compact');
 
             return ob_get_clean();
         });

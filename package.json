@@ -13,6 +13,7 @@
     "frontend:check": "mkdir -p frontend",
     "frontend:cleanup": "rm -rf frontend/*",
     "frontend:copy": "cp -R node_modules/@naba-network/hd-vue-gamecenter/dist/* frontend/",
+    "frontend:update": "npm install @naba-network/hd-vue-gamecenter@latest",
     "test": "composer cs-check && composer phpstan",
     "test:fix": "composer cs-fix"
   },
@@ -36,6 +37,6 @@
   },
   "homepage": "https://github.com/naba-network/hp-plugin-wordpress",
   "dependencies": {
-    "@naba-network/hd-vue-gamecenter": "~5.0.1"
+    "@naba-network/hd-vue-gamecenter": "^5.0.2"
   }
 }

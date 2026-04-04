@@ -32,7 +32,7 @@ class ScheduleSlider
             ob_start();
 
             TemplateEngine::render('/templates/shortcodes/schedule-slider.php', $data);
-            $this->vueService->enqueueAssets('wpc');
+            $this->vueService->enqueueAssets('compact');
 
             return ob_get_clean();
         });
