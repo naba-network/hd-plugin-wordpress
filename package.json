@@ -1,6 +1,6 @@
 {
   "name": "hp-plugin-wordpress",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Naba HockeyData Wordpress plugin.",
   "type": "module",
   "lastDependencyUpdate": "31.03.2026",

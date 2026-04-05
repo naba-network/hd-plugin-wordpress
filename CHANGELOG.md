@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+### v0.0.4 (2026-04-05)
+
 * [BUGFIX] Updated `build.sh` to prevent dotted files (like `.DS_Store` or `.DS_Script`) from being packed into the build zip.
 
 * [BUGFIX] Fixed PHPStan error by changing `getVersionedDocument()` return type from `?string` to `string` in `VueService.php`.
