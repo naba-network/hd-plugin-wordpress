@@ -36,7 +36,7 @@ done < .distinclude
 # Create the zip file
 echo "Creating zip archive ${ZIP_NAME}..."
 cd "${BUILD_DIR}"
-zip -r "${ZIP_NAME}" "${PLUGIN_SLUG}"
+zip -r "${ZIP_NAME}" "${PLUGIN_SLUG}" -x "*/.*" -x ".*"
 cd -
 
 # Move zip back to project root

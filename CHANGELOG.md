@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* [BUGFIX] Updated `build.sh` to prevent dotted files (like `.DS_Store` or `.DS_Script`) from being packed into the build zip.
+
 * [BUGFIX] Fixed PHPStan error by changing `getVersionedDocument()` return type from `?string` to `string` in `VueService.php`.
 * [FEATURE] Introduced PHPUnit, Mockery, and BrainMonkey for robust unit testing of WordPress interactions without requiring a full WordPress installation. Added a comprehensive test suite for `VueService.php` to ensure asset enqueuing logic behaves correctly.
 * [FEATURE] Added `test:unit` script to `package.json` and a `test` script in `composer.json` to streamline the execution of tests (`npm run test:unit` or `composer test`).
