@@ -132,7 +132,7 @@ class VueService
         return rtrim($base, '/') . '/' . $this->getAssetPath() . '/' . PluginConstants::MANIFEST_NAME;
     }
 
-    private function getVersionedDocument(string $fileName): ?string
+    private function getVersionedDocument(string $fileName): string
     {
         if (!isset($this->manifests[$this->buildType]) || !isset($this->manifests[$this->buildType][$fileName]['file'])) {
             // This file will not be found and lead to 404 in the browser but this helpful for debugging.
