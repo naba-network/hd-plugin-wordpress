@@ -40,3 +40,6 @@ jobs:
 
     - name: Run Static Analysis (PHPStan)
       run: composer phpstan
+
+    - name: Run Unit Tests (PHPUnit)
+      run: composer test
