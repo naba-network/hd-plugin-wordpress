@@ -108,6 +108,9 @@ class VueService
         }
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function loadManifest(): array
     {
         $path = $this->getManifestPath();

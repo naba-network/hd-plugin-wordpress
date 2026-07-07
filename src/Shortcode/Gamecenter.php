@@ -23,9 +23,12 @@ class Gamecenter
         $this->assignShortCodeToWordpress(self::SHORTCODE_NAME);
     }
 
+    /**
+     * @param non-empty-string $name
+     */
     private function assignShortCodeToWordpress(string $name): void
     {
-        add_shortcode($name, function ($atts) {
+        add_shortcode($name, function (array $atts): string {
             $data = [
               'sessionData' => $this->settings->getSessionInitialData()
             ];
@@ -35,7 +38,7 @@ class Gamecenter
             TemplateEngine::render('/templates/shortcodes/gamecenter.php', $data);
             $this->vueService->enqueueAssets();
 
-            return ob_get_clean();
+            return ob_get_clean() ?: '';
         });
     }
 }

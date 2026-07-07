@@ -22,9 +22,12 @@ class ScheduleSlider
         $this->assignShortCodeToWordpress(self::SHORTCODE_NAME);
     }
 
+    /**
+     * @param non-empty-string $name
+     */
     private function assignShortCodeToWordpress(string $name): void
     {
-        add_shortcode($name, function ($atts) {
+        add_shortcode($name, function (array $atts): string {
             $data = [
               'sessionData' => $this->settings->getSessionInitialData()
             ];
@@ -34,7 +37,7 @@ class ScheduleSlider
             TemplateEngine::render('/templates/shortcodes/schedule-slider.php', $data);
             $this->vueService->enqueueAssets('compact');
 
-            return ob_get_clean();
+            return ob_get_clean() ?: '';
         });
     }
 }

@@ -23,9 +23,12 @@ class TeamPage
         $this->assignShortCodeToWordpress(self::SHORTCODE_NAME);
     }
 
+    /**
+     * @param non-empty-string $name
+     */
     private function assignShortCodeToWordpress(string $name): void
     {
-        add_shortcode($name, function ($atts) {
+        add_shortcode($name, function (array $atts): string {
             $default_atts = [
               'division' => '',
               'team' => '',
@@ -45,7 +48,7 @@ class TeamPage
             TemplateEngine::render('/templates/shortcodes/team-page.php', $data);
             $this->vueService->enqueueAssets('compact');
 
-            return ob_get_clean();
+            return ob_get_clean() ?: '';
         });
     }
 }

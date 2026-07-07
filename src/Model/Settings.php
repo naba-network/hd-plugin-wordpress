@@ -22,6 +22,9 @@ class Settings
         return get_option(self::FIELD_API_KEY, '');
     }
 
+    /**
+     * @return array<mixed, mixed>
+     */
     public function getLeagueConfig(): array
     {
         return json_decode(
@@ -32,7 +35,7 @@ class Settings
 
     public function getLeagueConfigAsString(): string
     {
-        return json_encode($this->getLeagueConfig());
+        return json_encode($this->getLeagueConfig()) ?: '[]';
     }
 
     public function getHockeyDataApiKey(): string
@@ -88,13 +91,16 @@ class Settings
         );
     }
 
-    public function sanitize_json_input($input): string
+    public function sanitize_json_input(string $input): string
     {
         json_decode($input);
 
-        return json_last_error() === JSON_ERROR_NONE ? $input : json_encode([]);
+        return json_last_error() === JSON_ERROR_NONE ? $input : '[]';
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getSessionInitialData(): array
     {
         return [

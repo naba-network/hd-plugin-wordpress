@@ -78,7 +78,9 @@ class Plugin
                 __FILE__,
                 'novastats-hockeydata'
             );
-            $updateChecker->setBranch('main');
+            if ($updateChecker instanceof \YahnisElsts\PluginUpdateChecker\v5p6\Vcs\BaseChecker) {
+                $updateChecker->setBranch('main');
+            }
         }
     }
 

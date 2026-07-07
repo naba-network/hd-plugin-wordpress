@@ -8,6 +8,8 @@ class TemplateEngine
 {
     /**
      * Echo the rendered template directly.
+     *
+     * @param array<string, mixed> $context
      */
     public static function render(string $template_path, array $context = []): void
     {
@@ -18,6 +20,8 @@ class TemplateEngine
     /**
      * Render a template file with extracted context variables.
      * Templates are standard PHP files.
+     *
+     * @param array<string, mixed> $context
      */
     public static function renderTemplate(string $template_path, array $context = []): string
     {
@@ -37,6 +41,6 @@ class TemplateEngine
         include $realTemplatePath;
 
         // Capture and return output
-        return ob_get_clean();
+        return ob_get_clean() ?: '';
     }
 }
