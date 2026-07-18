@@ -91,16 +91,11 @@ class VueService
 
         $mainChunk = $this->manifests[$type][$mainTsFileName];
 
+        // Only the entry's static imports are preloaded. Preloading 'dynamicImports' as
+        // well would force browsers to download every lazily code-split route chunk up
+        // front, defeating the app's lazy loading and increasing the initial page weight.
         if (!empty($mainChunk['imports'])) {
             foreach ($mainChunk['imports'] as $importKey) {
-                if (isset($this->manifests[$type][$importKey]['file'])) {
-                    $this->preloadLinks[$importKey] = $this->buildOutputPath($this->manifests[$type][$importKey]['file']);
-                }
-            }
-        }
-
-        if (!empty($mainChunk['dynamicImports'])) {
-            foreach ($mainChunk['dynamicImports'] as $importKey) {
                 if (isset($this->manifests[$type][$importKey]['file'])) {
                     $this->preloadLinks[$importKey] = $this->buildOutputPath($this->manifests[$type][$importKey]['file']);
                 }

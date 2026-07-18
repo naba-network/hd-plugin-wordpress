@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* [ENHANCEMENT] `VueService.php` no longer emits `<link rel="modulepreload">` for the entry's dynamic imports; only static imports are preloaded. Lazily code-split route chunks are now downloaded on demand instead of up front, reducing the initial page weight for visitors.
+
 ### v0.0.4 (2026-04-05)
 
 * [BUGFIX] Updated `build.sh` to prevent dotted files (like `.DS_Store` or `.DS_Script`) from being packed into the build zip.
