@@ -1,7 +1,11 @@
 <?php
 
 define('ABSPATH', true);
-define('NABA_HDWP_VERSION', '0.0.1');
+
+// Read the version dynamically from the plugin header so it cannot drift.
+$pluginHeader = (string) file_get_contents(__DIR__ . '/plugin.php');
+preg_match('/^\s*\*\s*Version:\s*(\S+)/m', $pluginHeader, $versionMatch);
+define('NABA_HDWP_VERSION', $versionMatch[1] ?? '0.0.0');
 define('NABA_HDWP_PLUGIN_NAME', 'hd-plugin-wordpress');
 define('NABA_HDWP_PLUGIN_URL', 'http://localhost/wp-content/plugins/hd-plugin-wordpress');
 define('NABA_HDWP_PLUGIN_PATH', __DIR__);

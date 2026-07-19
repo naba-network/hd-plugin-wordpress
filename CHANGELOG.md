@@ -2,6 +2,21 @@
 
 ## Unreleased
 
+* [BREAKING] The admin area no longer stores league/season configuration or HockeyData credentials — these now live exclusively in the Nova Stats client portal. WordPress now stores only the account **API token**. `Settings` dropped the `FIELD_HD_API_KEY`, `FIELD_HD_REFERRER` and `FIELD_LEAGUE_SETTINGS` options (and their getters) and the drag-and-drop league editor (`admin/js/admin-league-configurator.js` + bundled `admin/vendor/Sortable.min.js`) was removed. Migration: existing installs keep their stored token; the now-unused `hd_api_key`/`hd_referrer`/`league_settings` option rows become inert and are removed on uninstall (`uninstall.php` already deletes them).
+* [BUGFIX] `Settings::getSessionInitialData()` now injects the token under the key `apiToken` (was `apiKey`). The Gamecenter frontend reads `session.apiToken`, so the token was previously never wired through to the app.
+* [FEATURE] Added an admin **Status** panel on the Configuration page (`templates/admin/admin.php`, new `src/Service/StatusService.php`): a live token-validation check against the Nova Stats backend (`/api/v1/validate-api-token`, sending `Referer` = site URL so the portal-side referrer is verified for this domain), plus local diagnostics (plugin version + update availability, PHP/WordPress versions, frontend-build presence, site referrer, shortcode list) and a nonce-guarded Re-check action. Added a "Open client portal" link (locale-aware URL).
+* [FEATURE] The `WP_DEBUG`-only Debug page now dumps the raw token-validation request/response instead of a static demo-leagues sample (`templates/admin/debug.php`).
+* [ENHANCEMENT] New hardcoded, filterable constants in `PluginConstants` (`NOVA_STATS_API_BASE_URL`, `VALIDATE_TOKEN_PATH`, `CLIENT_PORTAL_PATH`, `MIN_PHP_VERSION`); backend base URL overridable via the `naba_hdwp_api_base_url` filter. Documented the admin area under `docs/`.
+
+* [BUGFIX] Fixed the auto-updater in `plugin.php`: it now installs updates from the built `.zip` GitHub release asset (`enableReleaseAssets()`) instead of the `main` branch zipball, which lacks the gitignored `vendor/` and `frontend/` directories and would have installed a broken plugin. Added optional support for a `NABA_HDWP_GITHUB_TOKEN` constant (for private-repo update checks) and documented the setup in `README.md`.
+* [BUGFIX] Fixed version/metadata drift: `README.md` stable tag bumped from 0.0.1 to 0.0.4, `generate-test.php` now reads the version dynamically from the `plugin.php` header, and `package.json` name/repository/bugs/homepage URLs corrected from `hp-plugin-wordpress` to `hd-plugin-wordpress`.
+* [ENHANCEMENT] `update-version.js` now also updates the `Stable tag` header in `README.md` so version drift cannot recur.
+* [ENHANCEMENT] Bundled Bootstrap 5.3.8 CSS and SortableJS 1.15.0 locally under `admin/vendor/` and enqueue them from the plugin instead of the jsdelivr CDN (`AdminController.php`). Anchored the `.gitignore` `vendor/` rule to `/vendor/` so `admin/vendor/` is committed and shipped.
+* [BUGFIX] `templates/admin/admin.php` now uses `esc_attr()` instead of `esc_html()` for HTML attribute values (`action=`, `name=`, `value=`).
+* [FEATURE] Documented the `[Naba-Hdwp-Team-Page]` shortcode on the admin documentation page (`templates/admin/documentation.php`).
+* [ENHANCEMENT] The Debug admin submenu (`naba_hdwp_options_overview`) is now only registered when `WP_DEBUG` is enabled.
+* [ENHANCEMENT] Removed the committed generated file `test.html` and added it to `.gitignore` (it is the output of the `generate-test.php` dev tool).
+
 * [ENHANCEMENT] `VueService.php` no longer emits `<link rel="modulepreload">` for the entry's dynamic imports; only static imports are preloaded. Lazily code-split route chunks are now downloaded on demand instead of up front, reducing the initial page weight for visitors.
 
 ### v0.0.4 (2026-04-05)

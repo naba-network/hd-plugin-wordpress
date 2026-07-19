@@ -4,7 +4,7 @@
 **Tags:** hockey, stats, gamecenter, widget  
 **Requires at least:** 5.8  
 **Tested up to:** 6.4  
-**Stable tag:** 0.0.1  
+**Stable tag:** 0.0.4  
 **Requires PHP:** 8.3  
 **License:** MIT  
 **License URI:** https://opensource.org/licenses/MIT  
@@ -55,7 +55,8 @@ This will automatically include only the files and directories explicitly define
 This plugin now features an integrated GitHub Actions build pipeline and automatic WordPress updates:
 
 - **Build Pipeline:** A GitHub Actions workflow (`.github/workflows/release.yml`) automatically triggers on new tags (e.g., `v1.0.0`) or GitHub releases. It builds the plugin using `build.sh` and attaches the final `.zip` as a release asset.
-- **Automatic Updates:** The plugin incorporates `plugin-update-checker` to connect directly to the GitHub repository (`naba-network/hd-plugin-wordpress`). When a new release is available, it appears in the WordPress admin panel alongside standard plugin updates, allowing for seamless updates.
+- **Automatic Updates:** The plugin incorporates `plugin-update-checker` to connect directly to the GitHub repository (`naba-network/hd-plugin-wordpress`). Updates are installed from the built `.zip` release asset (release assets are enabled via `enableReleaseAssets()`), **not** from branch zipballs — those lack the gitignored `vendor/` and `frontend/` build artifacts and would install a broken plugin. When a new release is available, it appears in the WordPress admin panel alongside standard plugin updates, allowing for seamless updates.
+- **Repository visibility:** The GitHub repository must be **public** for unauthenticated update checks. If the repository is (or becomes) private, define the constant `NABA_HDWP_GITHUB_TOKEN` in `wp-config.php` with a GitHub token that has read access to the repository; the updater passes it to `setAuthentication()` automatically. Never commit a token to the codebase.
 
 ### Code Quality and Linting
 This project uses `phpstan` and `php-cs-fixer` to maintain code quality, alongside `PHPUnit` for testing. You can run the following commands:

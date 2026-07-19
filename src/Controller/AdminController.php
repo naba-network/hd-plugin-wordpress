@@ -7,14 +7,17 @@ defined('ABSPATH') || exit;
 use NabaHdwp\Constant\PluginConstants;
 use NabaHdwp\Helper\TemplateEngine;
 use NabaHdwp\Model\Settings;
+use NabaHdwp\Service\StatusService;
 
 class AdminController
 {
     private Settings $settingsModel;
+    private StatusService $statusService;
 
     public function __construct()
     {
         $this->settingsModel = new Settings();
+        $this->statusService = new StatusService($this->settingsModel);
 
         add_action('admin_menu', [$this, 'naba_hdwp_admin_menu']);
         add_action('admin_enqueue_scripts', [$this, 'naba_hdwp_admin_enqueue_scripts']);
@@ -30,14 +33,12 @@ class AdminController
         $version = PluginConstants::VERSION;
 
         if (strpos($hook_suffix, 'naba_hdwp_options_documentation') !== false) {
-            wp_enqueue_style('naba-hdwp-bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css', [], '5.3.8');
+            // Bundled locally (admin/vendor/) instead of loading from a CDN.
+            wp_enqueue_style('naba-hdwp-bootstrap', NABA_HDWP_PLUGIN_URL . 'admin/vendor/bootstrap.min.css', [], '5.3.8');
         } else {
             // Main config and debug pages
             wp_enqueue_style('naba-hdwp-admin-base', NABA_HDWP_PLUGIN_URL . 'admin/css/admin-base-styles.css', [], $version);
             wp_enqueue_style('naba-hdwp-admin-settings', NABA_HDWP_PLUGIN_URL . 'admin/css/admin-settings.css', ['naba-hdwp-admin-base'], $version);
-
-            wp_enqueue_script('naba-hdwp-sortable', 'https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js', [], '1.15.0', true);
-            wp_enqueue_script('naba-hdwp-admin-configurator', NABA_HDWP_PLUGIN_URL . 'admin/js/admin-league-configurator.js', ['naba-hdwp-sortable'], $version, true);
         }
     }
 
@@ -66,14 +67,17 @@ class AdminController
             'naba_hdwp_options_documentation',
             [$this, 'naba_hdwp_admin_settings_documentation']
         );
-        add_submenu_page(
-            'naba_hdwp_options',
-            'Debug',
-            'Debug',
-            'edit_theme_options',
-            'naba_hdwp_options_overview',
-            [$this, 'naba_hdwp_admin_settings_overview']
-        );
+        // The debug page is a development aid; only expose it when WP_DEBUG is on.
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            add_submenu_page(
+                'naba_hdwp_options',
+                'Debug',
+                'Debug',
+                'edit_theme_options',
+                'naba_hdwp_options_overview',
+                [$this, 'naba_hdwp_admin_settings_overview']
+            );
+        }
     }
 
     public function naba_hdwp_admin_settings_page(): void
@@ -82,22 +86,28 @@ class AdminController
             return;
         }
 
+        // A "Re-check" link busts the short connection-check cache. GET is fine
+        // (read-only), guarded by a nonce.
+        $forceRefresh = isset($_GET['naba_hdwp_recheck'])
+            && check_admin_referer('naba_hdwp_recheck');
+
         $data = [
           'plugin_path' => NABA_HDWP_PLUGIN_URL,
           'form_action' => 'options.php',
+          'portal_url' => $this->statusService->getClientPortalUrl(),
+          'recheck_url' => wp_nonce_url(
+              add_query_arg('naba_hdwp_recheck', '1', admin_url('admin.php?page=naba_hdwp_options')),
+              'naba_hdwp_recheck'
+          ),
           'form_data' => [
             'api_key' => $this->settingsModel->getApiKey(),
-            'leagues' => $this->settingsModel->getLeagueConfigAsString(),
-            'hd_api_key' => $this->settingsModel->getHockeyDataApiKey(),
-            'hd_referrer' => $this->settingsModel->getHockeyDataReferrer(),
           ],
           'options' => [
             'group_name' => Settings::DB_GROUP_NAME,
-            'option_leagues' => Settings::FIELD_LEAGUE_SETTINGS,
             'option_api_key' => Settings::FIELD_API_KEY,
-            'option_hd_api_key' => Settings::FIELD_HD_API_KEY,
-            'option_hd_referrer' => Settings::FIELD_HD_REFERRER,
           ],
+          'connection' => $this->statusService->checkConnection($forceRefresh),
+          'diagnostics' => $this->statusService->getDiagnostics(),
         ];
 
         TemplateEngine::render('/templates/admin/admin.php', $data);
@@ -110,9 +120,7 @@ class AdminController
         }
 
         $data = [
-          'form_data' => [
-            'leagues' => json_encode($this->settingsModel->getLeagueConfig(), JSON_PRETTY_PRINT),
-          ],
+          'raw' => $this->statusService->getRawValidation(),
         ];
 
         TemplateEngine::render('/templates/admin/debug.php', $data);

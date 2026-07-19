@@ -15,6 +15,9 @@ defined('ABSPATH') || exit;
         <a href="#doku-next-games-slider" class="nav-link text-white">
           Nächste Spiele Slider
         </a>
+        <a href="#doku-team-page" class="nav-link text-white">
+          Team Seite
+        </a>
       </li>
     </ul>
   </div>
@@ -29,6 +32,11 @@ defined('ABSPATH') || exit;
       <div class="col-12">
         <h2 id="doku-next-games-slider">Nächste Spiele Slider</h2>
         <strong>Shortcode:</strong><code>[Naba-Hdwp-Schedule-Slider]</code>
+      </div>
+
+      <div class="col-12">
+        <h2 id="doku-team-page">Team Seite</h2>
+        <strong>Shortcode:</strong><code>[Naba-Hdwp-Team-Page]</code>
       </div>
     </div>
   </div>

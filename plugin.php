@@ -72,14 +72,36 @@ class Plugin
 
     public function initUpdater(): void
     {
-        if (class_exists(\YahnisElsts\PluginUpdateChecker\v5\PucFactory::class)) {
-            $updateChecker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
-                'https://github.com/naba-network/hd-plugin-wordpress/',
-                __FILE__,
-                'novastats-hockeydata'
-            );
-            if ($updateChecker instanceof \YahnisElsts\PluginUpdateChecker\v5p6\Vcs\BaseChecker) {
-                $updateChecker->setBranch('main');
+        if (!class_exists(\YahnisElsts\PluginUpdateChecker\v5\PucFactory::class)) {
+            return;
+        }
+
+        $updateChecker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
+            'https://github.com/naba-network/hd-plugin-wordpress/',
+            __FILE__,
+            'novastats-hockeydata'
+        );
+
+        if (!$updateChecker instanceof \YahnisElsts\PluginUpdateChecker\v5p6\Vcs\BaseChecker) {
+            return;
+        }
+
+        $vcsApi = $updateChecker->getVcsApi();
+
+        if ($vcsApi instanceof \YahnisElsts\PluginUpdateChecker\v5p6\Vcs\GitHubApi) {
+            // Update from the built zip attached to GitHub releases by the CI
+            // pipeline (.github/workflows/release.yml). Branch zipballs must not
+            // be used: they lack the gitignored vendor/ and frontend/ artifacts.
+            $vcsApi->enableReleaseAssets();
+        }
+
+        // The GitHub repository must be public for unauthenticated update checks.
+        // If it is (or becomes) private, define NABA_HDWP_GITHUB_TOKEN in
+        // wp-config.php with a GitHub token that has read access to the repo.
+        if (defined('NABA_HDWP_GITHUB_TOKEN')) {
+            $token = constant('NABA_HDWP_GITHUB_TOKEN');
+            if (is_string($token) && $token !== '') {
+                $updateChecker->setAuthentication($token);
             }
         }
     }

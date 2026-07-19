@@ -11,7 +11,8 @@
 out
 gen
 /node_modules/
-vendor/
+# Only the composer vendor dir at the repo root — admin/vendor/ ships bundled admin assets.
+/vendor/
 /tests/unit/coverage/
 /frontend/
 
@@ -23,6 +24,8 @@ npm-debug.log
 
 # Project
 .env
+# Generated output of generate-test.php
+/test.html
 /stats/
 report.*.json
 

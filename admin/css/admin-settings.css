@@ -1,103 +1,90 @@
-.naba-hdwp-leagues {
-  margin: 2rem 0;
+.naba-hdwp-panel--spaced {
+  margin-top: 2rem;
 }
 
-/* Panel & collapsible body */
-.naba-hdwp-leagues .panel-body {
-  position: relative;
-  overflow: hidden;
-  transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
-  opacity: 1;
-  padding: 1rem;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-bottom: 2px solid #ddd;
+.naba-hdwp-admin-panel input[type="password"] {
+  margin-left: 0;
   border-radius: 3px;
-  margin-bottom: 1rem;
+  border: none;
+  box-shadow: none;
+  background-color: #F1F5F9;
+  padding: 13px;
+  font-size: 13px;
+  color: #4c5866;
+  height: auto;
+  width: 100%;
+  margin-bottom: 0;
+  transition: background .5s;
+  font-weight: 600;
 }
 
-.naba-hdwp-leagues .panel-body:hover {
-  border-left-color: #818181;
-  border-right-color: #818181;
-  border-bottom-color: #000;
+.naba-hdwp-admin-panel input[type="password"]:focus,
+.naba-hdwp-admin-panel input[type="password"]:hover {
+  background: #e6ecf2;
 }
 
-.naba-hdwp-leagues .panel-body.collapsed {
-  max-height: 0 !important;
-  opacity: 0;
-  padding: 0 15px;
+.naba-hdwp-token-field {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
 }
 
-/* Panel headers */
-.naba-hdwp-leagues .panel-header {
-  background: #B3B6BC;
-  border: 1px solid #ddd;
-  border-radius: 3px;
-  padding: 0.8rem 1rem;
-  cursor: pointer;
-  font-weight: bold;
-  margin-bottom: 5px;
+.naba-hdwp-token-field .naba-hdwp-button--default {
+  flex: 0 0 auto;
+  text-decoration: none;
+}
+
+/* Status badges */
+.naba-hdwp-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.6;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.naba-hdwp-badge--ok {
+  background: #03C2A9;
+}
+
+.naba-hdwp-badge--warn {
+  background: #d9a400;
+}
+
+.naba-hdwp-badge--error {
+  background: #dc3232;
+}
+
+.naba-hdwp-status-row {
   display: flex;
   align-items: center;
-  transition: background 0.2s;
-  position: relative;
+  gap: 0.6rem;
 }
 
-.naba-hdwp-leagues .panel-header:hover {
-  background: #C9CBCF;
+.naba-hdwp-hint {
+  color: #4c5866;
+  font-size: 13px;
 }
 
-/* Arrow indicators */
-.naba-hdwp-leagues .icon-arrow {
-  display: inline-block;
-  transition: transform 0.3s ease;
-  margin-left: auto;
+/* Diagnostics table */
+.naba-hdwp-diagnostics {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 720px;
 }
 
-.naba-hdwp-leagues .icon-arrow.collapsed {
-  transform: rotate(-90deg);
+.naba-hdwp-diagnostics th,
+.naba-hdwp-diagnostics td {
+  text-align: left;
+  padding: 0.5rem 1rem 0.5rem 0;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
 }
 
-/* Drag handle */
-.naba-hdwp-leagues .drag-handle {
-  cursor: grab;
-  font-size: 18px;
-  height: 18px;
-  margin-right: 10px;
-  color: #000;
-  transition: color 0.2s;
+.naba-hdwp-diagnostics th {
+  width: 200px;
+  font-weight: 700;
 }
-
-.naba-hdwp-leagues .drag-handle:hover {
-  color: #00a0d2;
-}
-
-/* Nested containers */
-.naba-hdwp-leagues-list-container-header {
-  font-size: 12px;
-  text-transform: uppercase;
-  border-bottom: 2px dashed #ddd;
-  margin-top: 3rem;
-}
-
-.naba-hdwp-leagues-list-container {
-  /*border-left: 2px dashed #ddd;*/
-  padding: 1rem;
-  margin-top: 1rem;
-}
-
-/* Remove button styling */
-.naba-hdwp-leagues .remove-button {
-  color: #dc3232;
-  border: 0;
-  background: none;
-  cursor: pointer;
-  position: absolute;
-  right: 1rem;
-  bottom: 1rem;
-}
-
-.naba-hdwp-leagues .remove-button:hover {
-  text-decoration: underline;
-}
-

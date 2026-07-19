@@ -1,5 +1,5 @@
 {
-  "name": "hp-plugin-wordpress",
+  "name": "hd-plugin-wordpress",
   "version": "0.0.4",
   "description": "Naba HockeyData Wordpress plugin.",
   "type": "module",
@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:naba-network/hp-plugin-wordpress.git"
+    "url": "git@github.com:naba-network/hd-plugin-wordpress.git"
   },
   "engines": {
     "node": ">=22 <25",
@@ -35,9 +35,9 @@
   "author": "Nachbauer GmbH",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/naba-network/hp-plugin-wordpress/issues"
+    "url": "https://github.com/naba-network/hd-plugin-wordpress/issues"
   },
-  "homepage": "https://github.com/naba-network/hp-plugin-wordpress",
+  "homepage": "https://github.com/naba-network/hd-plugin-wordpress",
   "dependencies": {
     "@naba-network/hd-vue-gamecenter": "^5.0.4"
   },

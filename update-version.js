@@ -66,7 +66,22 @@ try {
     console.error('❌ Failed to update plugin.php:', e.message);
 }
 
-// 3. Update CHANGELOG.md
+// 3. Update README.md (WordPress "Stable tag" header)
+const readmePath = path.join(__dirname, 'README.md');
+try {
+    let readme = fs.readFileSync(readmePath, 'utf8');
+    if (!/\*\*Stable tag:\*\*/.test(readme)) {
+        console.error('❌ Failed to update README.md: "**Stable tag:**" line not found.');
+    } else {
+        readme = readme.replace(/\*\*Stable tag:\*\*\s*\S+/, `**Stable tag:** ${newVersion}`);
+        fs.writeFileSync(readmePath, readme);
+        console.log('✅ Updated README.md');
+    }
+} catch (e) {
+    console.error('❌ Failed to update README.md:', e.message);
+}
+
+// 4. Update CHANGELOG.md
 const changelogPath = path.join(__dirname, 'CHANGELOG.md');
 try {
     let changelog = fs.readFileSync(changelogPath, 'utf8');
