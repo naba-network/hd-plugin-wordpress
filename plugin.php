@@ -76,6 +76,25 @@ class Plugin
             return;
         }
 
+        // Local/staging: point the update checker at a self-hosted metadata JSON
+        // (NABA_HDWP_UPDATE_SOURCE) so the WordPress update flow can be exercised
+        // without cutting a GitHub release. This builds a generic (non-VCS) checker,
+        // so the release-asset/token setup below does not apply and we return early.
+        // The define is absent in production -> the GitHub release-asset path is used.
+        $localUpdateSource = defined(Constant\PluginConstants::LOCAL_UPDATE_SOURCE_DEFINE)
+            ? constant(Constant\PluginConstants::LOCAL_UPDATE_SOURCE_DEFINE)
+            : null;
+
+        if (is_string($localUpdateSource) && $localUpdateSource !== '') {
+            \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
+                $localUpdateSource,
+                __FILE__,
+                'novastats-hockeydata'
+            );
+
+            return;
+        }
+
         $updateChecker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
             'https://github.com/naba-network/hd-plugin-wordpress/',
             __FILE__,

@@ -41,6 +41,7 @@ class VueService
         // Add script files.
         $scriptName = $this->getAssetIncludeName('scripts');
         wp_enqueue_script($scriptName, $mainTsFile, [], $version, true);
+        $this->enqueueRuntimeOverrides($scriptName);
 
         // Add style files.
         wp_enqueue_style($this->getAssetIncludeName('styles'), $styleFile, [], $version);
@@ -58,6 +59,43 @@ class VueService
             add_action('wp_head', [$this, 'printPreloadLinks']);
             $this->hooksRegistered = true;
         }
+    }
+
+    /**
+     * Inject optional host-level API overrides into window.initialData before the
+     * widget bundle runs. Only emitted when the matching wp-config defines are set
+     * (local/staging testing, see docs/local-development.md); production has neither
+     * define, so nothing is printed and the bundle uses its built-in production URLs.
+     *
+     * Printed as a classic <script> before the module entry, so the globals exist
+     * when the deferred module bundle evaluates the widget's config.ts.
+     */
+    private function enqueueRuntimeOverrides(string $scriptName): void
+    {
+        $overrides = [];
+
+        $apiBaseUrl = defined(PluginConstants::LOCAL_API_BASE_URL_DEFINE) ? constant(PluginConstants::LOCAL_API_BASE_URL_DEFINE) : null;
+        if (is_string($apiBaseUrl) && $apiBaseUrl !== '') {
+            $overrides[PluginConstants::INITIAL_DATA_KEY_API_BASE_URL] = $apiBaseUrl;
+        }
+
+        $hockeyDataUrl = defined(PluginConstants::LOCAL_HOCKEYDATA_URL_DEFINE) ? constant(PluginConstants::LOCAL_HOCKEYDATA_URL_DEFINE) : null;
+        if (is_string($hockeyDataUrl) && $hockeyDataUrl !== '') {
+            $overrides[PluginConstants::INITIAL_DATA_KEY_HOCKEYDATA_URL] = $hockeyDataUrl;
+        }
+
+        if ($overrides === []) {
+            return;
+        }
+
+        $json = wp_json_encode($overrides);
+
+        if ($json === false) {
+            return;
+        }
+
+        $script = 'window.initialData = window.initialData || {}; Object.assign(window.initialData, ' . $json . ');';
+        wp_add_inline_script($scriptName, $script, 'before');
     }
 
     public function addModuleTypeToScript(string $tag, string $handle): string

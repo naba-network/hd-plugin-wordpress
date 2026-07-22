@@ -153,9 +153,14 @@ class StatusService
             return $this->connectionResult(true, false, '', 0, [], sprintf('Unexpected backend response (HTTP %s).', $status));
         }
 
-        $message = is_string($body['message'] ?? null) ? $body['message'] : '';
-        $leagues = is_array($body['leagues'] ?? null) ? $body['leagues'] : [];
-        $features = is_array($body['features'] ?? null) ? array_values(array_filter($body['features'], 'is_string')) : [];
+        // The backend wraps every API payload in a `{ data, notifications }` envelope
+        // (ApiResponseWrapperSubscriber). Unwrap to the payload; fall back to the top
+        // level so the check still works if the envelope is ever absent.
+        $payload = is_array($body['data'] ?? null) ? $body['data'] : $body;
+
+        $message = is_string($payload['message'] ?? null) ? $payload['message'] : '';
+        $leagues = is_array($payload['leagues'] ?? null) ? $payload['leagues'] : [];
+        $features = is_array($payload['features'] ?? null) ? array_values(array_filter($payload['features'], 'is_string')) : [];
 
         return $this->connectionResult(true, $message === '', $message, count($leagues), $features, null);
     }
@@ -178,9 +183,19 @@ class StatusService
 
     private function getApiBaseUrl(): string
     {
-        $url = apply_filters('naba_hdwp_api_base_url', PluginConstants::NOVA_STATS_API_BASE_URL);
+        // The optional NABA_HDWP_API_BASE_URL define (local/staging testing) repoints the
+        // server-side health-check to the same backend the widget uses; production has no
+        // define and keeps the hardcoded prod URL. The existing filter still wins over both.
+        $default = PluginConstants::NOVA_STATS_API_BASE_URL;
+        $override = defined(PluginConstants::LOCAL_API_BASE_URL_DEFINE) ? constant(PluginConstants::LOCAL_API_BASE_URL_DEFINE) : null;
 
-        return rtrim(is_string($url) ? $url : PluginConstants::NOVA_STATS_API_BASE_URL, '/');
+        if (is_string($override) && $override !== '') {
+            $default = $override;
+        }
+
+        $url = apply_filters('naba_hdwp_api_base_url', $default);
+
+        return rtrim(is_string($url) ? $url : $default, '/');
     }
 
     /**

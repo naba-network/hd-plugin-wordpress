@@ -63,6 +63,27 @@ class StatusServiceTest extends TestCase
         $this->assertSame('https://mysite.test/', $captured['args']['headers']['Referer']);
     }
 
+    public function test_checkConnection_unwraps_data_envelope(): void
+    {
+        // The live backend wraps the payload in a { data, notifications } envelope
+        // (ApiResponseWrapperSubscriber). leagues/message/features must be read from
+        // inside `data`, otherwise a valid connection is reported as having no leagues.
+        Functions\when('is_wp_error')->justReturn(false);
+        Functions\when('wp_remote_get')->justReturn([
+            'body' => json_encode([
+                'data' => ['message' => '', 'leagues' => [['id' => 27]], 'features' => ['stats']],
+                'notifications' => [],
+            ]),
+            'code' => 200,
+        ]);
+
+        $result = $this->service('valid-token')->checkConnection();
+
+        $this->assertTrue($result['connected']);
+        $this->assertSame(1, $result['leagueCount']);
+        $this->assertSame(['stats'], $result['features']);
+    }
+
     public function test_checkConnection_rejected_reports_backend_message(): void
     {
         Functions\when('is_wp_error')->justReturn(false);

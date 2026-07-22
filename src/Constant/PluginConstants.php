@@ -26,6 +26,18 @@ interface PluginConstants
     /** Client portal app path; a `/{locale}` prefix is prepended at runtime. */
     public const string CLIENT_PORTAL_PATH = '/client-portal';
 
+    /**
+     * Optional wp-config defines for local/staging testing (see docs/local-development.md).
+     * All are absent in production, so production behaviour is unchanged.
+     */
+    public const string LOCAL_API_BASE_URL_DEFINE = 'NABA_HDWP_API_BASE_URL';
+    public const string LOCAL_HOCKEYDATA_URL_DEFINE = 'NABA_HDWP_HOCKEYDATA_URL';
+    public const string LOCAL_UPDATE_SOURCE_DEFINE = 'NABA_HDWP_UPDATE_SOURCE';
+
+    /** window.initialData keys the widget reads for runtime API overrides (naba-hdwp-widgets config.ts). */
+    public const string INITIAL_DATA_KEY_API_BASE_URL = 'novaStatsApiUrl';
+    public const string INITIAL_DATA_KEY_HOCKEYDATA_URL = 'hockeyDataApiUrl';
+
     /** Minimum PHP version the plugin requires (see plugin.php header). */
     public const string MIN_PHP_VERSION = '8.3';
 }
