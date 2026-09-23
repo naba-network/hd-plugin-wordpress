@@ -5,7 +5,7 @@ namespace Tests\Unit\Model;
 use Brain\Monkey;
 use Brain\Monkey\Functions;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-use NabaHdwp\Model\Settings;
+use NovaStats\Gamecenter\Model\Settings;
 use PHPUnit\Framework\TestCase;
 
 class SettingsTest extends TestCase

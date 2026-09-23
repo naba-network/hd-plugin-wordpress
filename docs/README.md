@@ -1,4 +1,4 @@
-# NovaStats HockeyData — Feature Docs
+# Gamecenter — Feature Docs
 
 One Markdown file per feature.
 

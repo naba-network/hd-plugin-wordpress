@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name: NovaStats HockeyData
+ * Plugin Name: Gamecenter
  * Plugin URI:  https://nova-stats.com/
  * Description: The hockey game center widget for WordPress.
  * Version:     0.0.4
@@ -14,7 +14,7 @@
  * License URI: https://opensource.org/licenses/MIT
  */
 
-namespace NabaHdwp;
+namespace NovaStats\Gamecenter;
 
 defined('ABSPATH') || exit;
 
@@ -58,10 +58,10 @@ class Plugin
 
     private function defineConstants(): void
     {
-        define('NABA_HDWP_VERSION', '0.0.4');
-        define('NABA_HDWP_PLUGIN_NAME', 'hd-plugin-wordpress');
-        define('NABA_HDWP_PLUGIN_URL', plugin_dir_url(__FILE__));
-        define('NABA_HDWP_PLUGIN_PATH', plugin_dir_path(__FILE__));
+        define('NOVA_STATS_VERSION', '0.0.4');
+        define('NOVA_STATS_PLUGIN_NAME', 'hd-plugin-wordpress');
+        define('NOVA_STATS_PLUGIN_URL', plugin_dir_url(__FILE__));
+        define('NOVA_STATS_PLUGIN_PATH', plugin_dir_path(__FILE__));
     }
 
     private function initHooks(): void
@@ -77,7 +77,7 @@ class Plugin
         }
 
         // Local/staging: point the update checker at a self-hosted metadata JSON
-        // (NABA_HDWP_UPDATE_SOURCE) so the WordPress update flow can be exercised
+        // (NOVA_STATS_LOCAL_UPDATE_SOURCE) so the WordPress update flow can be exercised
         // without cutting a GitHub release. This builds a generic (non-VCS) checker,
         // so the release-asset/token setup below does not apply and we return early.
         // The define is absent in production -> the GitHub release-asset path is used.
@@ -115,10 +115,10 @@ class Plugin
         }
 
         // The GitHub repository must be public for unauthenticated update checks.
-        // If it is (or becomes) private, define NABA_HDWP_GITHUB_TOKEN in
+        // If it is (or becomes) private, define NOVA_STATS_GITHUB_TOKEN in
         // wp-config.php with a GitHub token that has read access to the repo.
-        if (defined('NABA_HDWP_GITHUB_TOKEN')) {
-            $token = constant('NABA_HDWP_GITHUB_TOKEN');
+        if (defined('NOVA_STATS_GITHUB_TOKEN')) {
+            $token = constant('NOVA_STATS_GITHUB_TOKEN');
             if (is_string($token) && $token !== '') {
                 $updateChecker->setAuthentication($token);
             }

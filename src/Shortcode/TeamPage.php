@@ -1,17 +1,17 @@
 <?php
 
-namespace NabaHdwp\Shortcode;
+namespace NovaStats\Gamecenter\Shortcode;
 
 defined('ABSPATH') || exit;
 
-use NabaHdwp\Constant\PluginConstants;
-use NabaHdwp\Helper\TemplateEngine;
-use NabaHdwp\Model\Settings;
-use NabaHdwp\Service\VueService;
+use NovaStats\Gamecenter\Constant\PluginConstants;
+use NovaStats\Gamecenter\Helper\TemplateEngine;
+use NovaStats\Gamecenter\Model\Settings;
+use NovaStats\Gamecenter\Service\VueService;
 
 class TeamPage
 {
-    public const SHORTCODE_NAME = 'Naba-Hdwp-Team-Page';
+    public const SHORTCODE_NAME = 'Gamecenter-Team-Page';
 
     private VueService $vueService;
     private Settings $settings;

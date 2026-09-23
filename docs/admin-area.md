@@ -2,7 +2,9 @@
 
 ## Overview
 
-The plugin admin area (**Naba HDWP** menu) is intentionally minimal. All league/season
+The plugin admin area (**Gamecenter** menu, icon `admin/nova-stats-brand-logo-monochrom.svg`, inlined
+as a `data:image/svg+xml` icon_url so WordPress sizes it like a dashicon) is intentionally minimal.
+All league/season
 configuration and the HockeyData credentials live in the **Nova Stats client portal**; the
 WordPress site stores only the account **API token**. The Gamecenter Vue app reads that token
 and fetches everything else (leagues, seasons, per-team HockeyData credentials, feature flags)
@@ -10,30 +12,26 @@ from the Nova Stats backend at runtime.
 
 ## Pages
 
-### Configuration (`Naba HDWP` → `Configuration`)
+### Configuration (`Gamecenter` → `Configuration`)
 
 Three blocks, rendered by `templates/admin/admin.php`:
 
 1. **Client portal link** — button opening the locale-aware portal URL
    (`https://nova-stats.com/{de|en}/client-portal`). Locale is derived from `get_locale()`.
 2. **API Token form** — a single password field (with a Show/Hide toggle) bound to the WordPress
-   Settings API option `naba_hdwp_db_setting__api_key` (group `naba_hdwp_db_settings_group`,
+   Settings API option `nova_stats_db_setting__api_key` (group `nova_stats_db_settings_group`,
    sanitized with `sanitize_text_field`). Saving posts to `options.php` — WordPress core handles
    the nonce.
 3. **Gamecenter Link form** — a single URL field bound to the Settings API option
-   `naba_hdwp_db_setting__gamecenter_base_url` (same group, sanitized with `sanitize_url`): the page
-   on this site where `[Naba-Hdwp-Gamecenter]` is placed, so the schedule slider and team page
+   `nova_stats_db_setting__gamecenter_base_url` (same group, sanitized with `sanitize_url`): the page
+   on this site where `[Gamecenter]` is placed, so the schedule slider and team page
    shortcodes can link back to it. See
    [Reusable initial data — Gamecenter link](reusable-initial-data.md).
 
 Styled with Bootstrap 5.3.8 (`admin/vendor/bootstrap.min.css`, vendored locally) instead of a
 custom stylesheet — see [Styling](#styling) below.
 
-### Documentation (`Naba HDWP` → `Documentation`)
-
-Lists the available shortcodes. (Content to be expanded later.)
-
-### Debug (`Naba HDWP` → `Debug`) — only when `WP_DEBUG` is enabled
+### Debug (`Gamecenter` → `Debug`) — only when `WP_DEBUG` is enabled
 
 Rendered by `templates/admin/debug.php` as two Bootstrap `card`s in a `row` / `col-lg-6` grid,
 stacking to full width below the `lg` breakpoint (992px):
@@ -77,9 +75,9 @@ if `< 8.3`) and WordPress version; the CDN host/version the `embed` build is cur
 
 ## Styling
 
-All three admin pages (Configuration, Documentation, Debug) share a single stylesheet: Bootstrap
+Both admin pages (Configuration, Debug) share a single stylesheet: Bootstrap
 5.3.8, vendored locally at `admin/vendor/bootstrap.min.css` and enqueued unconditionally in
-`AdminController::naba_hdwp_admin_enqueue_scripts()` whenever any `naba_hdwp_options*` page loads.
+`AdminController::nova_stats_admin_enqueue_scripts()` whenever any `nova_stats_options*` page loads.
 There is no plugin-specific admin CSS file — the markup uses only Bootstrap component/utility
 classes (`card`, `btn`, `form-control`/`input-group`, `badge text-bg-*`, `table`, grid/`row`/`col`),
 so there is nothing custom to keep in sync when Bootstrap is upgraded.
@@ -89,7 +87,7 @@ so there is nothing custom to keep in sync when Bootstrap is upgraded.
 Defined in `src/Constant/PluginConstants.php`:
 
 - `NOVA_STATS_API_BASE_URL` (`https://nova-stats.com`) — overridable via the
-  `naba_hdwp_api_base_url` filter.
+  `nova_stats_api_base_url` filter.
 - `VALIDATE_TOKEN_PATH`, `CLIENT_PORTAL_PATH`, `MIN_PHP_VERSION`.
 
 ## Data injected into the frontend

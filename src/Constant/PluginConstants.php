@@ -1,15 +1,15 @@
 <?php
 
-namespace NabaHdwp\Constant;
+namespace NovaStats\Gamecenter\Constant;
 
 defined('ABSPATH') || exit;
 
 interface PluginConstants
 {
-    public const string PLUGIN_NAME = NABA_HDWP_PLUGIN_NAME;
-    public const string PLUGIN_URL = NABA_HDWP_PLUGIN_URL;
-    public const string PLUGIN_PATH = NABA_HDWP_PLUGIN_PATH;
-    public const string VERSION = NABA_HDWP_VERSION;
+    public const string PLUGIN_NAME = NOVA_STATS_PLUGIN_NAME;
+    public const string PLUGIN_URL = NOVA_STATS_PLUGIN_URL;
+    public const string PLUGIN_PATH = NOVA_STATS_PLUGIN_PATH;
+    public const string VERSION = NOVA_STATS_VERSION;
 
     /**
      * The `embed` build's CDN, shared with the client portal's manual embed snippet
@@ -24,11 +24,11 @@ interface PluginConstants
     public const string EMBED_CDN_VERSION = 'latest';
 
     /** Optional wp-config define to point at a local/staging embed build (see docs/local-development.md). */
-    public const string LOCAL_EMBED_CDN_HOST_DEFINE = 'NABA_HDWP_EMBED_CDN_HOST';
+    public const string LOCAL_EMBED_CDN_HOST_DEFINE = 'NOVA_STATS_LOCAL_EMBED_CDN_HOST';
 
     /**
      * Nova Stats backend base URL. Hardcoded to match the Gamecenter frontend
-     * (naba-hdwp-widgets config.ts). Override via the `naba_hdwp_api_base_url` filter.
+     * (naba-hdwp-widgets config.ts). Override via the `nova_stats_api_base_url` filter.
      */
     public const string NOVA_STATS_API_BASE_URL = 'https://nova-stats.com';
 
@@ -42,9 +42,9 @@ interface PluginConstants
      * Optional wp-config defines for local/staging testing (see docs/local-development.md).
      * All are absent in production, so production behaviour is unchanged.
      */
-    public const string LOCAL_API_BASE_URL_DEFINE = 'NABA_HDWP_API_BASE_URL';
-    public const string LOCAL_HOCKEYDATA_URL_DEFINE = 'NABA_HDWP_HOCKEYDATA_URL';
-    public const string LOCAL_UPDATE_SOURCE_DEFINE = 'NABA_HDWP_UPDATE_SOURCE';
+    public const string LOCAL_API_BASE_URL_DEFINE = 'NOVA_STATS_LOCAL_API_BASE_URL';
+    public const string LOCAL_HOCKEYDATA_URL_DEFINE = 'NOVA_STATS_LOCAL_HOCKEYDATA_URL';
+    public const string LOCAL_UPDATE_SOURCE_DEFINE = 'NOVA_STATS_LOCAL_UPDATE_SOURCE';
 
     /** window.initialData keys the widget reads for runtime API overrides (naba-hdwp-widgets config.ts). */
     public const string INITIAL_DATA_KEY_API_BASE_URL = 'novaStatsApiUrl';

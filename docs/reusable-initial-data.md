@@ -6,8 +6,8 @@ The account **API token** was already "set once": the Configuration page stores 
 
 A second value now follows the same pattern: **Gamecenter Link**
 (`Settings::FIELD_GAMECENTER_BASE_URL` / `getGamecenterBaseUrl()`) — the page on this site where
-`[Naba-Hdwp-Gamecenter]` is placed. The schedule slider (`[Naba-Hdwp-Schedule-Slider]`) and team page
-(`[Naba-Hdwp-Team-Page]`) shortcodes use it to render a link back to the main Gamecenter (see
+`[Gamecenter]` is placed. The schedule slider (`[Gamecenter-Schedule-Slider]`) and team page
+(`[Gamecenter-Team-Page]`) shortcodes use it to render a link back to the main Gamecenter (see
 `naba-hdwp-widgets`' `docs/reusable-initial-data.md` for how the frontend consumes it).
 
 ## Why a WordPress setting, not something derived automatically
@@ -18,7 +18,7 @@ auto-detected — the site owner has to say where they put the Gamecenter shortc
 
 ## Where it's set and injected
 
-- **Set:** Configuration page (`Naba HDWP` → `Configuration`), "Gamecenter Link" card
+- **Set:** Configuration page (`Gamecenter` → `Configuration`), "Gamecenter Link" card
   (`templates/admin/admin.php`), a plain URL field in its own `<form>`, bound to its own Settings API
   group (`Settings::DB_GROUP_NAME_GAMECENTER`), sanitized with `sanitize_url`. Empty by default — the
   frontend simply doesn't render the link until this is filled in.
@@ -27,7 +27,7 @@ auto-detected — the site owner has to say where they put the Gamecenter shortc
   (alongside the existing `sessionData`), and every shortcode template's inline bootstrap `<script>`
   (`templates/shortcodes/*.php`) sets `window.initialData` at that same key from it — the same
   script, same mechanism that already sets `window.initialData.session`. It's injected
-  unconditionally, including on the `[Naba-Hdwp-Gamecenter]` shortcode itself, even though that
+  unconditionally, including on the `[Gamecenter]` shortcode itself, even though that
   widget has no use for it — keeping all three shortcode templates identical in shape was preferred
   over a special case for one of them.
 

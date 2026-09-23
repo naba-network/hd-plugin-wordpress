@@ -5,8 +5,8 @@ namespace Tests\Unit\Service;
 use Brain\Monkey;
 use Brain\Monkey\Functions;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-use NabaHdwp\Constant\PluginConstants;
-use NabaHdwp\Service\VueService;
+use NovaStats\Gamecenter\Constant\PluginConstants;
+use NovaStats\Gamecenter\Service\VueService;
 use PHPUnit\Framework\TestCase;
 
 class VueServiceTest extends TestCase

@@ -1,4 +1,4 @@
-# NovaStats HockeyData
+# Gamecenter
 
 **Contributors:** Nachbauer GmbH  
 **Tags:** hockey, stats, gamecenter, widget  
@@ -23,7 +23,7 @@ This plugin has been updated to use modern development standards, including Comp
 ### Setup Instructions
 
 1. **Install PHP Dependencies:**
-Since the plugin now uses Composer for managing the `NabaHdwp` namespace and autoloading, you must install the dependencies before the plugin will work.
+Since the plugin now uses Composer for managing the `NovaStats\Gamecenter` namespace and autoloading, you must install the dependencies before the plugin will work.
 Run the following command in the plugin's root directory:
 
 ```bash
@@ -50,7 +50,7 @@ This plugin now features an integrated GitHub Actions build pipeline and automat
 
 - **Build Pipeline:** A GitHub Actions workflow (`.github/workflows/release.yml`) automatically triggers on new tags (e.g., `v1.0.0`) or GitHub releases. It builds the plugin using `build.sh` and attaches the final `.zip` as a release asset.
 - **Automatic Updates:** The plugin incorporates `plugin-update-checker` to connect directly to the GitHub repository (`naba-network/hd-plugin-wordpress`). Updates are installed from the built `.zip` release asset (release assets are enabled via `enableReleaseAssets()`), **not** from branch zipballs — those lack the gitignored `vendor/` build artifacts and would install a broken plugin. When a new release is available, it appears in the WordPress admin panel alongside standard plugin updates, allowing for seamless updates.
-- **Repository visibility:** The GitHub repository must be **public** for unauthenticated update checks. If the repository is (or becomes) private, define the constant `NABA_HDWP_GITHUB_TOKEN` in `wp-config.php` with a GitHub token that has read access to the repository; the updater passes it to `setAuthentication()` automatically. Never commit a token to the codebase.
+- **Repository visibility:** The GitHub repository must be **public** for unauthenticated update checks. If the repository is (or becomes) private, define the constant `NOVA_STATS_GITHUB_TOKEN` in `wp-config.php` with a GitHub token that has read access to the repository; the updater passes it to `setAuthentication()` automatically. Never commit a token to the codebase.
 
 ### Code Quality and Linting
 This project uses `phpstan` and `php-cs-fixer` to maintain code quality, alongside `PHPUnit` for testing. You can run the following commands:

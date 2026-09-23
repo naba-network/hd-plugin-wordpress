@@ -1,6 +1,6 @@
 <?php
 
-namespace NabaHdwp\Helper;
+namespace NovaStats\Gamecenter\Helper;
 
 defined('ABSPATH') || exit;
 
@@ -25,7 +25,7 @@ class TemplateEngine
      */
     public static function renderTemplate(string $template_path, array $context = []): string
     {
-        $realTemplatePath = NABA_HDWP_PLUGIN_PATH . $template_path;
+        $realTemplatePath = NOVA_STATS_PLUGIN_PATH . $template_path;
 
         if (!file_exists($realTemplatePath)) {
             return "<!-- Template not found: {$realTemplatePath} -->";

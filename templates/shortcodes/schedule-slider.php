@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') || exit;
 
-use NabaHdwp\Constant\PluginConstants;
+use NovaStats\Gamecenter\Constant\PluginConstants;
 
 ?>
 <script>

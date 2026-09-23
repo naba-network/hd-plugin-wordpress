@@ -1,14 +1,14 @@
 <?php
 
-namespace NabaHdwp\Service;
+namespace NovaStats\Gamecenter\Service;
 
 defined('ABSPATH') || exit;
 
-use NabaHdwp\Constant\PluginConstants;
-use NabaHdwp\Model\Settings;
-use NabaHdwp\Shortcode\Gamecenter;
-use NabaHdwp\Shortcode\ScheduleSlider;
-use NabaHdwp\Shortcode\TeamPage;
+use NovaStats\Gamecenter\Constant\PluginConstants;
+use NovaStats\Gamecenter\Model\Settings;
+use NovaStats\Gamecenter\Shortcode\Gamecenter;
+use NovaStats\Gamecenter\Shortcode\ScheduleSlider;
+use NovaStats\Gamecenter\Shortcode\TeamPage;
 
 /**
  * Builds the data for the admin status/health panel:
@@ -17,7 +17,7 @@ use NabaHdwp\Shortcode\TeamPage;
  */
 class StatusService
 {
-    private const string CONNECTION_TRANSIENT = 'naba_hdwp_connection_check';
+    private const string CONNECTION_TRANSIENT = 'nova_stats_connection_check';
     private const int CONNECTION_TTL = 60;
 
     public function __construct(private Settings $settings)
@@ -182,10 +182,10 @@ class StatusService
     }
 
     /**
-     * The optional NABA_HDWP_EMBED_CDN_HOST define (local/staging testing) repoints the embed
-     * build at a locally-served one instead of the production CDN; production has no define
-     * and keeps the hardcoded CDN host. Mirrors `VueService::getEmbedCdnHost()` so the Debug
-     * page's "Frontend assets" diagnostic reports the host actually in use.
+     * The optional NOVA_STATS_LOCAL_EMBED_CDN_HOST define (local/staging testing) repoints the
+     * embed build at a locally-served one instead of the production CDN; production has no
+     * define and keeps the hardcoded CDN host. Mirrors `VueService::getEmbedCdnHost()` so the
+     * Debug page's "Frontend assets" diagnostic reports the host actually in use.
      */
     private function getEmbedCdnHost(): string
     {
@@ -196,7 +196,7 @@ class StatusService
 
     private function getApiBaseUrl(): string
     {
-        // The optional NABA_HDWP_API_BASE_URL define (local/staging testing) repoints the
+        // The optional NOVA_STATS_LOCAL_API_BASE_URL define (local/staging testing) repoints the
         // server-side health-check to the same backend the widget uses; production has no
         // define and keeps the hardcoded prod URL. The existing filter still wins over both.
         $default = PluginConstants::NOVA_STATS_API_BASE_URL;
@@ -206,7 +206,7 @@ class StatusService
             $default = $override;
         }
 
-        $url = apply_filters('naba_hdwp_api_base_url', $default);
+        $url = apply_filters('nova_stats_api_base_url', $default);
 
         return rtrim(is_string($url) ? $url : $default, '/');
     }

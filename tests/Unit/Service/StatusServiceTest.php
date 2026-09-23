@@ -5,9 +5,9 @@ namespace Tests\Unit\Service;
 use Brain\Monkey;
 use Brain\Monkey\Functions;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-use NabaHdwp\Constant\PluginConstants;
-use NabaHdwp\Model\Settings;
-use NabaHdwp\Service\StatusService;
+use NovaStats\Gamecenter\Constant\PluginConstants;
+use NovaStats\Gamecenter\Model\Settings;
+use NovaStats\Gamecenter\Service\StatusService;
 use PHPUnit\Framework\TestCase;
 
 class StatusServiceTest extends TestCase
@@ -137,7 +137,7 @@ class StatusServiceTest extends TestCase
 
     public function test_getDiagnostics_embed_host_defaults_to_the_production_cdn(): void
     {
-        // No NABA_HDWP_EMBED_CDN_HOST define in the test bootstrap, matching production:
+        // No NOVA_STATS_LOCAL_EMBED_CDN_HOST define in the test bootstrap, matching production:
         // `getEmbedCdnHost()` must report `PluginConstants::EMBED_CDN_HOST` here, mirroring
         // `VueService::getEmbedCdnHost()`'s own default (the override branch isn't exercised
         // by a unit test since `define()` is process-global and would leak into other tests).

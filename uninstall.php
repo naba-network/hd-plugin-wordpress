@@ -8,7 +8,5 @@ if (! defined('WP_UNINSTALL_PLUGIN')) {
 }
 
 // Delete options
-delete_option('naba_hdwp_db_setting__api_key');
-delete_option('naba_hdwp_db_setting__hd_api_key');
-delete_option('naba_hdwp_db_setting__hd_referrer');
-delete_option('naba_hdwp_db_setting__league_settings');
+delete_option('nova_stats_db_setting__api_key');
+delete_option('nova_stats_db_setting__gamecenter_base_url');

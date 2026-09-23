@@ -1,10 +1,10 @@
 <?php
 
-namespace NabaHdwp\Service;
+namespace NovaStats\Gamecenter\Service;
 
 defined('ABSPATH') || exit;
 
-use NabaHdwp\Constant\PluginConstants;
+use NovaStats\Gamecenter\Constant\PluginConstants;
 
 class VueService
 {
@@ -41,6 +41,7 @@ class VueService
      * widget bundle runs. Only emitted when the matching wp-config defines are set
      * (local/staging testing, see docs/local-development.md); production has neither
      * define, so nothing is printed and the bundle uses its built-in production URLs.
+     * (NOVA_STATS_LOCAL_API_BASE_URL / NOVA_STATS_LOCAL_HOCKEYDATA_URL)
      *
      * Printed as a classic <script> before the module entry, so the globals exist
      * when the deferred module bundle evaluates the widget's config.ts.
@@ -83,9 +84,9 @@ class VueService
     }
 
     /**
-     * The optional NABA_HDWP_EMBED_CDN_HOST define (local/staging testing) repoints the embed
-     * build at a locally-served one instead of the production CDN; production has no define
-     * and keeps the hardcoded CDN host.
+     * The optional NOVA_STATS_LOCAL_EMBED_CDN_HOST define (local/staging testing) repoints the
+     * embed build at a locally-served one instead of the production CDN; production has no
+     * define and keeps the hardcoded CDN host.
      */
     private function getEmbedCdnHost(): string
     {

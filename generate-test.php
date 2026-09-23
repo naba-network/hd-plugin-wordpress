@@ -5,10 +5,10 @@ define('ABSPATH', true);
 // Read the version dynamically from the plugin header so it cannot drift.
 $pluginHeader = (string) file_get_contents(__DIR__ . '/plugin.php');
 preg_match('/^\s*\*\s*Version:\s*(\S+)/m', $pluginHeader, $versionMatch);
-define('NABA_HDWP_VERSION', $versionMatch[1] ?? '0.0.0');
-define('NABA_HDWP_PLUGIN_NAME', 'hd-plugin-wordpress');
-define('NABA_HDWP_PLUGIN_URL', 'http://localhost/wp-content/plugins/hd-plugin-wordpress');
-define('NABA_HDWP_PLUGIN_PATH', __DIR__);
+define('NOVA_STATS_VERSION', $versionMatch[1] ?? '0.0.0');
+define('NOVA_STATS_PLUGIN_NAME', 'hd-plugin-wordpress');
+define('NOVA_STATS_PLUGIN_URL', 'http://localhost/wp-content/plugins/hd-plugin-wordpress');
+define('NOVA_STATS_PLUGIN_PATH', __DIR__);
 
 $scripts = [];
 $styles = [];
@@ -51,7 +51,7 @@ function esc_url($url)
 require_once __DIR__ . '/src/Constant/PluginConstants.php';
 require_once __DIR__ . '/src/Service/VueService.php';
 
-use NabaHdwp\Service\VueService;
+use NovaStats\Gamecenter\Service\VueService;
 
 $service = new VueService();
 

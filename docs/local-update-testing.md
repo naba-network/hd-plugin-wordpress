@@ -4,13 +4,13 @@ The plugin auto-updates from the built `.zip` attached to a **GitHub release**
 (`plugin.php::initUpdater()` → `enableReleaseAssets()`). That normally means the
 WordPress "update available" flow can only be exercised by cutting a real release.
 
-The `NABA_HDWP_UPDATE_SOURCE` define lets you point the update checker at a
+The `NOVA_STATS_LOCAL_UPDATE_SOURCE` define lets you point the update checker at a
 **self-hosted metadata JSON** instead, so you can bump the version and drive the
 WordPress update UI entirely locally.
 
 ## How it works
 
-When `NABA_HDWP_UPDATE_SOURCE` is defined and non-empty, `initUpdater()` builds a
+When `NOVA_STATS_LOCAL_UPDATE_SOURCE` is defined and non-empty, `initUpdater()` builds a
 generic (non-VCS) update checker against that URL and returns early — the GitHub
 release-asset and token setup is skipped. The define is absent in production, so the
 GitHub path is used there unchanged.
@@ -25,7 +25,7 @@ GitHub path is used there unchanged.
    [local-development.md](local-development.md)):
 
    ```php
-   define('NABA_HDWP_UPDATE_SOURCE', 'https://wordpress.ddev.site/local-update/info.json');
+   define('NOVA_STATS_LOCAL_UPDATE_SOURCE', 'https://wordpress.ddev.site/local-update/info.json');
    ```
 
 3. **Build a zip** of a higher version:
@@ -55,7 +55,7 @@ GitHub path is used there unchanged.
    }
    ```
 
-   `version` must be higher than the installed `NABA_HDWP_VERSION` for WordPress to
+   `version` must be higher than the installed `NOVA_STATS_VERSION` for WordPress to
    offer the update.
 
 ## Verify

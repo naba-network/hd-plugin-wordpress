@@ -30,17 +30,17 @@ defined('ABSPATH') || exit;
         <?php settings_fields($options['group_name']); ?>
 
         <div class="mb-3">
-          <label for="naba-hdwp-api-token" class="form-label fw-bold">API Token</label>
+          <label for="nova-stats-api-token" class="form-label fw-bold">API Token</label>
           <div class="input-group" style="max-width: 480px;">
             <input
               type="password"
               class="form-control"
-              id="naba-hdwp-api-token"
+              id="nova-stats-api-token"
               name="<?php echo esc_attr($options['option_api_key']); ?>"
               value="<?php echo esc_attr($form_data['api_key']); ?>"
               autocomplete="off"
             >
-            <button type="button" class="btn btn-outline-secondary" data-naba-hdwp-toggle="naba-hdwp-api-token">
+            <button type="button" class="btn btn-outline-secondary" data-nova-stats-toggle="nova-stats-api-token">
               Show
             </button>
           </div>
@@ -55,7 +55,7 @@ defined('ABSPATH') || exit;
     <div class="card-header">Gamecenter Link</div>
     <div class="card-body">
       <p class="card-text">
-        The page on this site where the Gamecenter shortcode (<code>[Naba-Hdwp-Gamecenter]</code>) is
+        The page on this site where the Gamecenter shortcode (<code>[Gamecenter]</code>) is
         placed. Set this once and the schedule slider and team page shortcodes will link back to it.
         Leave empty to hide that link.
       </p>
@@ -64,11 +64,11 @@ defined('ABSPATH') || exit;
         <?php settings_fields($options['group_name_gamecenter']); ?>
 
         <div class="mb-3">
-          <label for="naba-hdwp-gamecenter-base-url" class="form-label fw-bold">Gamecenter page URL</label>
+          <label for="nova-stats-gamecenter-base-url" class="form-label fw-bold">Gamecenter page URL</label>
           <input
             type="url"
             class="form-control"
-            id="naba-hdwp-gamecenter-base-url"
+            id="nova-stats-gamecenter-base-url"
             name="<?php echo esc_attr($options['option_gamecenter_base_url']); ?>"
             value="<?php echo esc_attr($form_data['gamecenter_base_url']); ?>"
             placeholder="https://example.com/gamecenter"
@@ -84,9 +84,9 @@ defined('ABSPATH') || exit;
 </div>
 
 <script>
-  document.querySelectorAll('[data-naba-hdwp-toggle]').forEach(function (button) {
+  document.querySelectorAll('[data-nova-stats-toggle]').forEach(function (button) {
     button.addEventListener('click', function () {
-      var input = document.getElementById(button.getAttribute('data-naba-hdwp-toggle'));
+      var input = document.getElementById(button.getAttribute('data-nova-stats-toggle'));
       if (!input) {
         return;
       }

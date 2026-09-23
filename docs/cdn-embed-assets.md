@@ -1,6 +1,6 @@
 # CDN embed assets
 
-The three shortcodes (`[Naba-Hdwp-Gamecenter]`, `[Naba-Hdwp-Schedule-Slider]`, `[Naba-Hdwp-Team-Page]`)
+The three shortcodes (`[Gamecenter]`, `[Gamecenter-Schedule-Slider]`, `[Gamecenter-Team-Page]`)
 now load the Gamecenter widget from the same Cloudflare Worker + R2 CDN
 (`https://cdn.statistics.stream`) the client portal's manual embed snippet already uses, instead of a
 `frontend/` directory bundled into the plugin's `.zip` at build time. See
@@ -41,7 +41,7 @@ frontend build pipeline at all.
 
 ## Local/staging testing
 
-The optional `NABA_HDWP_EMBED_CDN_HOST` wp-config define repoints the script/style URLs at a
+The optional `NOVA_STATS_LOCAL_EMBED_CDN_HOST` wp-config define repoints the script/style URLs at a
 locally-served `embed` build instead of the production CDN — see
 [Local development & end-to-end testing](local-development.md). Production has no define, so
 production behaviour is unchanged.

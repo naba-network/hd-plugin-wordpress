@@ -2,6 +2,33 @@
 
 ## Unreleased
 
+* [ENHANCEMENT] The Gamecenter admin menu now uses the Nova Stats brand logo
+  (`admin/nova-stats-brand-logo-monochrom.svg`) as its icon instead of the default dashicon,
+  inlined as a base64 `data:image/svg+xml` icon_url (`AdminController::getMenuIconDataUri()`) so
+  WordPress applies its own `.svg` menu-icon sizing instead of rendering it at native size.
+* [BREAKING] Removed the admin "Documentation" page (`nova_stats_options_documentation` submenu,
+  `AdminController::nova_stats_admin_settings_documentation()`, `templates/admin/documentation.php`)
+  — no longer needed.
+* [BREAKING] Renamed the plugin from "NovaStats HockeyData" to **Gamecenter** and replaced the
+  internal `NabaHdwp`/`NABA_HDWP` naming with `NovaStats\Gamecenter`/`NOVA_STATS`:
+  - PHP namespace `NabaHdwp` → `NovaStats\Gamecenter`.
+  - Global constants `NABA_HDWP_VERSION`/`PLUGIN_NAME`/`PLUGIN_URL`/`PLUGIN_PATH`/`GITHUB_TOKEN` →
+    `NOVA_STATS_*`. The local/staging override wp-config defines (embed CDN host, API base URL,
+    HockeyData URL, update source) → `NOVA_STATS_LOCAL_*` to avoid colliding with
+    `PluginConstants::NOVA_STATS_API_BASE_URL`.
+  - Database option names `naba_hdwp_db_setting__api_key` / `naba_hdwp_db_setting__gamecenter_base_url`
+    (and their settings groups) → `nova_stats_db_setting__*`. `uninstall.php` now only deletes these
+    two (the previously-listed `naba_hdwp_db_setting__hd_api_key` / `__hd_referrer` /
+    `__league_settings` keys were already dead/unused and have been dropped).
+  - Admin page slugs `naba_hdwp_options*`, the `naba_hdwp_recheck` query arg, and the
+    `naba_hdwp_api_base_url` filter → `nova_stats_*`. Admin menu label "Naba HDWP" → "Gamecenter".
+  - Shortcode tags `[Naba-Hdwp-Gamecenter]` / `[Naba-Hdwp-Schedule-Slider]` / `[Naba-Hdwp-Team-Page]`
+    → `[Gamecenter]` / `[Gamecenter-Schedule-Slider]` / `[Gamecenter-Team-Page]`.
+  - No backwards compatibility: existing installs lose their saved API token/Gamecenter link
+    setting and must re-enter them, and any site content using the old shortcode tags must be
+    updated manually. The GitHub repository, plugin directory/slug (`hd-plugin-wordpress`), and the
+    update-checker source URL are unchanged.
+
 * [BUGFIX] The Debug page's "Frontend assets" diagnostic (`StatusService::getDiagnostics()['embed']`)
   reported the hardcoded production CDN host even when the local/staging
   `NABA_HDWP_EMBED_CDN_HOST` override was active, instead of the host `VueService` actually loads

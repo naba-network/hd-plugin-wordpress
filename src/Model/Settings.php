@@ -1,13 +1,13 @@
 <?php
 
-namespace NabaHdwp\Model;
+namespace NovaStats\Gamecenter\Model;
 
 defined('ABSPATH') || exit;
 
 class Settings
 {
-    public const DB_GROUP_NAME = 'naba_hdwp_db_settings_group';
-    public const FIELD_API_KEY = 'naba_hdwp_db_setting__api_key';
+    public const DB_GROUP_NAME = 'nova_stats_db_settings_group';
+    public const FIELD_API_KEY = 'nova_stats_db_setting__api_key';
 
     /**
      * Registered under its own settings group, deliberately not `DB_GROUP_NAME`: the "Gamecenter
@@ -16,8 +16,8 @@ class Settings
      * the *submitted* group to empty if it isn't present in that particular form's `$_POST`, so
      * sharing a group across two independent forms would make saving either one wipe the other.
      */
-    public const DB_GROUP_NAME_GAMECENTER = 'naba_hdwp_db_settings_group_gamecenter';
-    public const FIELD_GAMECENTER_BASE_URL = 'naba_hdwp_db_setting__gamecenter_base_url';
+    public const DB_GROUP_NAME_GAMECENTER = 'nova_stats_db_settings_group_gamecenter';
+    public const FIELD_GAMECENTER_BASE_URL = 'nova_stats_db_setting__gamecenter_base_url';
 
     public function __construct()
     {
@@ -30,7 +30,7 @@ class Settings
     }
 
     /**
-     * The page on this site where the `[Naba-Hdwp-Gamecenter]` shortcode is placed, so the
+     * The page on this site where the `[Gamecenter]` shortcode is placed, so the
      * schedule slider and team page shortcodes can link back to it. Set once, reused by every
      * shortcode - not a Nova Stats backend value, it describes this site's own page layout.
      */

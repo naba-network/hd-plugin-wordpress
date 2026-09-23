@@ -1,7 +1,7 @@
 {
   "name": "hd-plugin-wordpress",
   "version": "0.0.4",
-  "description": "Naba HockeyData Wordpress plugin.",
+  "description": "Nova Stats Gamecenter WordPress plugin.",
   "type": "module",
   "lastDependencyUpdate": "31.03.2026",
   "scripts": {

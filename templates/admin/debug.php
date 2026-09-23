@@ -25,7 +25,7 @@ $statusDot = static function (string $state, string $label): void {
 ?>
 <div class="wrap container-fluid px-0 py-3">
 
-  <h1>Naba HDWP Debug</h1>
+  <h1>Gamecenter Debug</h1>
   <p>Visible only while <code>WP_DEBUG</code> is enabled.</p>
 
   <div class="row g-3">
