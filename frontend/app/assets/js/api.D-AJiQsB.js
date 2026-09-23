@@ -1,0 +1,1 @@
+import{n as e}from"./shared.63-CUjtnHDy.js";export{e as axiosInstance};

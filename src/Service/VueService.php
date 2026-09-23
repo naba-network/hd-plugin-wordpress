@@ -8,55 +8,30 @@ use NabaHdwp\Constant\PluginConstants;
 
 class VueService
 {
-    /**
-     * @var array<string, array<string, mixed>>
-     */
-    private array $manifests = [];
-
-    private string $buildType = 'app';
-
     private const string SCRIPT_PREFIX = 'nova-stats';
 
     private bool $hooksRegistered = false;
 
-    /** @var array<string> */
-    private array $queuedManifestPaths = [];
-
-    /** @var array<string, string> */
-    private array $preloadLinks = [];
-
-    public function enqueueAssets(string $type = 'app'): void
+    /**
+     * Enqueues the `embed` build's script/style from the CDN. Safe to call from every
+     * shortcode: `wp_enqueue_script`/`wp_enqueue_style` dedupe by handle, so the assets are
+     * still only ever printed once per page no matter how many shortcodes (or shortcode
+     * instances) triggered it - and only pages that actually render a shortcode call this at
+     * all, since it's only ever invoked from a shortcode callback.
+     */
+    public function enqueueEmbedAssets(): void
     {
         $version = PluginConstants::VERSION;
-        $this->buildType = $type;
+        $cdnBase = rtrim($this->getEmbedCdnHost(), '/') . '/embed/gamecenter/' . PluginConstants::EMBED_CDN_VERSION . '/';
 
-        if (!isset($this->manifests[$type])) {
-            $this->manifests[$type] = $this->loadManifest();
-        }
-
-        $styleFile = $this->getVersionedDocument('style.css');
-        $mainTsFileName = $type === 'app' ? 'src/main.ts' : 'src/main-compact.ts';
-        $mainTsFile = $this->getVersionedDocument($mainTsFileName);
-
-        // Add script files.
-        $scriptName = $this->getAssetIncludeName('scripts');
-        wp_enqueue_script($scriptName, $mainTsFile, [], $version, true);
+        $scriptName = self::SCRIPT_PREFIX . '--embed-scripts';
+        wp_enqueue_script($scriptName, $cdnBase . 'gamecenter.js', [], $version, true);
         $this->enqueueRuntimeOverrides($scriptName);
 
-        // Add style files.
-        wp_enqueue_style($this->getAssetIncludeName('styles'), $styleFile, [], $version);
-
-        $this->registerPreloadLinks($type, $mainTsFileName);
-
-        $manifestPath = $this->getManifestPath(true);
-        if (!in_array($manifestPath, $this->queuedManifestPaths, true)) {
-            $this->queuedManifestPaths[] = $manifestPath;
-        }
+        wp_enqueue_style(self::SCRIPT_PREFIX . '--embed-styles', $cdnBase . 'gamecenter.css', [], $version);
 
         if (!$this->hooksRegistered) {
             add_filter('script_loader_tag', [$this, 'addModuleTypeToScript'], 10, 2);
-            add_action('wp_footer', [$this, 'printManifestLinks']);
-            add_action('wp_head', [$this, 'printPreloadLinks']);
             $this->hooksRegistered = true;
         }
     }
@@ -107,91 +82,15 @@ class VueService
         return $tag;
     }
 
-    public function printManifestLinks(): void
-    {
-        foreach ($this->queuedManifestPaths as $manifestPath) {
-            echo "\n" . '<link rel="manifest" href="' . esc_url($manifestPath) . '" />' . "\n";
-        }
-    }
-
-    public function printPreloadLinks(): void
-    {
-        foreach ($this->preloadLinks as $link) {
-            echo "\n" . '<link rel="modulepreload" href="' . esc_url($link) . '" />' . "\n";
-        }
-    }
-
-    private function registerPreloadLinks(string $type, string $mainTsFileName): void
-    {
-        if (!isset($this->manifests[$type]) || !isset($this->manifests[$type][$mainTsFileName])) {
-            return;
-        }
-
-        $mainChunk = $this->manifests[$type][$mainTsFileName];
-
-        // Only the entry's static imports are preloaded. Preloading 'dynamicImports' as
-        // well would force browsers to download every lazily code-split route chunk up
-        // front, defeating the app's lazy loading and increasing the initial page weight.
-        if (!empty($mainChunk['imports'])) {
-            foreach ($mainChunk['imports'] as $importKey) {
-                if (isset($this->manifests[$type][$importKey]['file'])) {
-                    $this->preloadLinks[$importKey] = $this->buildOutputPath($this->manifests[$type][$importKey]['file']);
-                }
-            }
-        }
-    }
-
     /**
-     * @return array<string, mixed>
+     * The optional NABA_HDWP_EMBED_CDN_HOST define (local/staging testing) repoints the embed
+     * build at a locally-served one instead of the production CDN; production has no define
+     * and keeps the hardcoded CDN host.
      */
-    private function loadManifest(): array
+    private function getEmbedCdnHost(): string
     {
-        $path = $this->getManifestPath();
+        $override = defined(PluginConstants::LOCAL_EMBED_CDN_HOST_DEFINE) ? constant(PluginConstants::LOCAL_EMBED_CDN_HOST_DEFINE) : null;
 
-        if (file_exists($path)) {
-            $content = file_get_contents($path);
-            if ($content !== false) {
-                $manifest = json_decode($content, true);
-                if (json_last_error() === JSON_ERROR_NONE && is_array($manifest)) {
-                    return $manifest;
-                }
-            }
-        }
-
-        return [];
-    }
-
-    private function getManifestPath(bool $asUrl = false): string
-    {
-        $base = $asUrl ? PluginConstants::PLUGIN_URL : PluginConstants::PLUGIN_PATH;
-
-        return rtrim($base, '/') . '/' . $this->getAssetPath() . '/' . PluginConstants::MANIFEST_NAME;
-    }
-
-    private function getVersionedDocument(string $fileName): string
-    {
-        if (!isset($this->manifests[$this->buildType]) || !isset($this->manifests[$this->buildType][$fileName]['file'])) {
-            // This file will not be found and lead to 404 in the browser but this helpful for debugging.
-            return $this->buildOutputPath($fileName);
-        }
-
-        return $this->buildOutputPath($this->manifests[$this->buildType][$fileName]['file']);
-    }
-
-    private function buildOutputPath(string $fileName): string
-    {
-        $buildBase = rtrim(PluginConstants::PLUGIN_URL, '/') . '/' . $this->getAssetPath() . '/';
-
-        return $buildBase . $fileName;
-    }
-
-    private function getAssetPath(): string
-    {
-        return $this->buildType === 'app' ? PluginConstants::BUILD_PATH_APP : PluginConstants::BUILD_PATH_COMPACT;
-    }
-
-    private function getAssetIncludeName(string $suffix): string
-    {
-        return sprintf('%s--%s-%s', self::SCRIPT_PREFIX, $this->buildType, $suffix);
+        return is_string($override) && $override !== '' ? $override : PluginConstants::EMBED_CDN_HOST;
     }
 }

@@ -96,7 +96,7 @@ class StatusService
      *   plugin: array{version: string, updateAvailable: bool, latestVersion: ?string},
      *   php: array{version: string, ok: bool, required: string},
      *   wp: array{version: string},
-     *   build: array{app: bool, compact: bool},
+     *   embed: array{host: string, version: string},
      *   referrer: string,
      *   shortcodes: list<string>
      * }
@@ -111,9 +111,9 @@ class StatusService
             'required' => PluginConstants::MIN_PHP_VERSION,
           ],
           'wp' => ['version' => get_bloginfo('version')],
-          'build' => [
-            'app' => file_exists(PluginConstants::PLUGIN_PATH . 'frontend/app/' . PluginConstants::MANIFEST_NAME),
-            'compact' => file_exists(PluginConstants::PLUGIN_PATH . 'frontend/compact/' . PluginConstants::MANIFEST_NAME),
+          'embed' => [
+            'host' => $this->getEmbedCdnHost(),
+            'version' => PluginConstants::EMBED_CDN_VERSION,
           ],
           'referrer' => home_url('/'),
           'shortcodes' => [
@@ -125,7 +125,7 @@ class StatusService
     }
 
     /**
-     * Locale-prefixed client portal URL, e.g. https://datahub.h-sc.at/de/client-portal.
+     * Locale-prefixed client portal URL, e.g. https://nova-stats.com/de/client-portal.
      */
     public function getClientPortalUrl(): string
     {
@@ -179,6 +179,19 @@ class StatusService
     private function getValidationUrl(string $token): string
     {
         return $this->getApiBaseUrl() . PluginConstants::VALIDATE_TOKEN_PATH . '?token=' . rawurlencode($token);
+    }
+
+    /**
+     * The optional NABA_HDWP_EMBED_CDN_HOST define (local/staging testing) repoints the embed
+     * build at a locally-served one instead of the production CDN; production has no define
+     * and keeps the hardcoded CDN host. Mirrors `VueService::getEmbedCdnHost()` so the Debug
+     * page's "Frontend assets" diagnostic reports the host actually in use.
+     */
+    private function getEmbedCdnHost(): string
+    {
+        $override = defined(PluginConstants::LOCAL_EMBED_CDN_HOST_DEFINE) ? constant(PluginConstants::LOCAL_EMBED_CDN_HOST_DEFINE) : null;
+
+        return is_string($override) && $override !== '' ? $override : PluginConstants::EMBED_CDN_HOST;
     }
 
     private function getApiBaseUrl(): string

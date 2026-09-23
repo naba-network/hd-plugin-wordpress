@@ -4,7 +4,6 @@ namespace NabaHdwp\Controller;
 
 defined('ABSPATH') || exit;
 
-use NabaHdwp\Constant\PluginConstants;
 use NabaHdwp\Helper\TemplateEngine;
 use NabaHdwp\Model\Settings;
 use NabaHdwp\Service\StatusService;
@@ -30,16 +29,9 @@ class AdminController
             return;
         }
 
-        $version = PluginConstants::VERSION;
-
-        if (strpos($hook_suffix, 'naba_hdwp_options_documentation') !== false) {
-            // Bundled locally (admin/vendor/) instead of loading from a CDN.
-            wp_enqueue_style('naba-hdwp-bootstrap', NABA_HDWP_PLUGIN_URL . 'admin/vendor/bootstrap.min.css', [], '5.3.8');
-        } else {
-            // Main config and debug pages
-            wp_enqueue_style('naba-hdwp-admin-base', NABA_HDWP_PLUGIN_URL . 'admin/css/admin-base-styles.css', [], $version);
-            wp_enqueue_style('naba-hdwp-admin-settings', NABA_HDWP_PLUGIN_URL . 'admin/css/admin-settings.css', ['naba-hdwp-admin-base'], $version);
-        }
+        // Bundled locally (admin/vendor/) instead of loading from a CDN.
+        // Used on all plugin admin pages (Configuration, Documentation, Debug).
+        wp_enqueue_style('naba-hdwp-bootstrap', NABA_HDWP_PLUGIN_URL . 'admin/vendor/bootstrap.min.css', [], '5.3.8');
     }
 
     public function naba_hdwp_admin_menu(): void
@@ -86,28 +78,20 @@ class AdminController
             return;
         }
 
-        // A "Re-check" link busts the short connection-check cache. GET is fine
-        // (read-only), guarded by a nonce.
-        $forceRefresh = isset($_GET['naba_hdwp_recheck'])
-            && check_admin_referer('naba_hdwp_recheck');
-
         $data = [
           'plugin_path' => NABA_HDWP_PLUGIN_URL,
           'form_action' => 'options.php',
           'portal_url' => $this->statusService->getClientPortalUrl(),
-          'recheck_url' => wp_nonce_url(
-              add_query_arg('naba_hdwp_recheck', '1', admin_url('admin.php?page=naba_hdwp_options')),
-              'naba_hdwp_recheck'
-          ),
           'form_data' => [
             'api_key' => $this->settingsModel->getApiKey(),
+            'gamecenter_base_url' => $this->settingsModel->getGamecenterBaseUrl(),
           ],
           'options' => [
             'group_name' => Settings::DB_GROUP_NAME,
             'option_api_key' => Settings::FIELD_API_KEY,
+            'group_name_gamecenter' => Settings::DB_GROUP_NAME_GAMECENTER,
+            'option_gamecenter_base_url' => Settings::FIELD_GAMECENTER_BASE_URL,
           ],
-          'connection' => $this->statusService->checkConnection($forceRefresh),
-          'diagnostics' => $this->statusService->getDiagnostics(),
         ];
 
         TemplateEngine::render('/templates/admin/admin.php', $data);
@@ -119,8 +103,19 @@ class AdminController
             return;
         }
 
+        // A "Re-check" link busts the short connection-check cache. GET is fine
+        // (read-only), guarded by a nonce.
+        $forceRefresh = isset($_GET['naba_hdwp_recheck'])
+            && check_admin_referer('naba_hdwp_recheck');
+
         $data = [
           'raw' => $this->statusService->getRawValidation(),
+          'recheck_url' => wp_nonce_url(
+              add_query_arg('naba_hdwp_recheck', '1', admin_url('admin.php?page=naba_hdwp_options_overview')),
+              'naba_hdwp_recheck'
+          ),
+          'connection' => $this->statusService->checkConnection($forceRefresh),
+          'diagnostics' => $this->statusService->getDiagnostics(),
         ];
 
         TemplateEngine::render('/templates/admin/debug.php', $data);

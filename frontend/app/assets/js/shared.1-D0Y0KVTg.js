@@ -1,0 +1,1 @@
+import{i as e}from"./shared.19-DUiHytq1.js";function t(t){let n=e(),i=null;return n.getLeagues.forEach(e=>{!i&&e.seasons.some(e=>r(e,t))&&(i=e)}),i}function n(t){let n=e(),i=null;return n.getLeagues.forEach(e=>{i||=e.seasons.find(e=>r(e,t))||null}),i}function r(e,t){return e.divisionId===t||e.standings.some(e=>e.divisionId===t)||e.playoffId===t?e:null}export{n,t};

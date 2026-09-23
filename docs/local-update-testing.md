@@ -33,10 +33,12 @@ GitHub path is used there unchanged.
    ```bash
    cd hd-plugin-wordpress
    npm run release patch      # bump the version (or edit plugin.php manually)
-   npm run build              # or: npm run link:local  (populate frontend/)
    composer install --no-dev --optimize-autoloader
    ./build.sh                 # produces novastats-hockeydata-<version>.zip
    ```
+
+   No frontend build step — the plugin loads the `embed` build from the CDN
+   (`VueService::enqueueEmbedAssets()`), not a bundled `frontend/` directory.
 
 4. **Publish locally**: copy the zip into `env-wordpress/local-update/` and write
    `info.json` describing it. Minimal shape the update checker understands:

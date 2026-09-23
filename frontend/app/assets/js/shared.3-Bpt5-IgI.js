@@ -1,0 +1,1 @@
+import{P as e,R as t,T as n,m as r,y as i}from"./shared.8-iNLmfP38.js";import{n as a,u as o}from"./shared.19-DUiHytq1.js";var s=i({name:`e-select`,inheritAttrs:!1,data(){return{density:o}}});function c(i,a,o,s,c,l){let u=t(`v-select`);return e(),r(u,n({class:i.b(``),density:i.density},i.$attrs),null,16,[`class`,`density`])}var l=a(s,[[`render`,c]]);export{l as t};

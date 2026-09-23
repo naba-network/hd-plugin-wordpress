@@ -14,7 +14,6 @@ gen
 # Only the composer vendor dir at the repo root — admin/vendor/ ships bundled admin assets.
 /vendor/
 /tests/unit/coverage/
-/frontend/
 
 # Visual Studio Code
 .vscode

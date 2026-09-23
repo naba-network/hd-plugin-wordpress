@@ -1,0 +1,74 @@
+{
+  "src/assets/fonts/bebas-neue/bebas-neue-v9-latin-regular.woff2": {
+    "file": "assets/fonts/bebas-neue-v9-latin-regular.Dw3nadr5.woff2",
+    "src": "src/assets/fonts/bebas-neue/bebas-neue-v9-latin-regular.woff2"
+  },
+  "src/assets/fonts/roboto-condensed/roboto-condensed-v25-latin-700.woff2": {
+    "file": "assets/fonts/roboto-condensed-v25-latin-700.gXOfHJ_C.woff2",
+    "src": "src/assets/fonts/roboto-condensed/roboto-condensed-v25-latin-700.woff2"
+  },
+  "src/assets/fonts/roboto-condensed/roboto-condensed-v25-latin-regular.woff2": {
+    "file": "assets/fonts/roboto-condensed-v25-latin-regular.BxtiIe_f.woff2",
+    "src": "src/assets/fonts/roboto-condensed/roboto-condensed-v25-latin-regular.woff2"
+  },
+  "src/assets/fonts/roboto-flex/roboto-flex-v9-latin-regular.woff2": {
+    "file": "assets/fonts/roboto-flex-v9-latin-regular.C6IHsTEl.woff2",
+    "src": "src/assets/fonts/roboto-flex/roboto-flex-v9-latin-regular.woff2"
+  },
+  "src/assets/fonts/upbolters/upbolters-regular-italic.woff2": {
+    "file": "assets/fonts/upbolters-regular-italic.Co2qM5xu.woff2",
+    "src": "src/assets/fonts/upbolters/upbolters-regular-italic.woff2"
+  },
+  "src/assets/fonts/upbolters/upbolters-regular.woff2": {
+    "file": "assets/fonts/upbolters-regular.Dl1fzu8W.woff2",
+    "src": "src/assets/fonts/upbolters/upbolters-regular.woff2"
+  },
+  "src/assets/icons.svg": {
+    "file": "assets/img/icons._VqCx7Cj.svg",
+    "src": "src/assets/icons.svg"
+  },
+  "src/assets/icons/i-hockey-sticks.svg": {
+    "file": "assets/img/i-hockey-sticks.QzctPAsl.svg",
+    "src": "src/assets/icons/i-hockey-sticks.svg"
+  },
+  "src/assets/icons/i-zamboni.svg": {
+    "file": "assets/img/i-zamboni.C1XD_9Ef.svg",
+    "src": "src/assets/icons/i-zamboni.svg"
+  },
+  "src/assets/player-card-background.jpg": {
+    "file": "assets/img/player-card-background.CVimW-ZZ.jpg",
+    "src": "src/assets/player-card-background.jpg"
+  },
+  "src/main-compact.ts": {
+    "file": "index.Cuiry2Cg.js",
+    "name": "main-compact",
+    "src": "src/main-compact.ts",
+    "isEntry": true,
+    "dynamicImports": [
+      "src/translations/de.json",
+      "src/main-compact.ts"
+    ],
+    "assets": [
+      "assets/img/i-zamboni.C1XD_9Ef.svg",
+      "assets/img/i-hockey-sticks.QzctPAsl.svg",
+      "assets/img/icons._VqCx7Cj.svg",
+      "assets/img/player-card-background.CVimW-ZZ.jpg",
+      "assets/fonts/roboto-flex-v9-latin-regular.C6IHsTEl.woff2",
+      "assets/fonts/roboto-condensed-v25-latin-regular.BxtiIe_f.woff2",
+      "assets/fonts/roboto-condensed-v25-latin-700.gXOfHJ_C.woff2",
+      "assets/fonts/bebas-neue-v9-latin-regular.Dw3nadr5.woff2",
+      "assets/fonts/upbolters-regular.Dl1fzu8W.woff2",
+      "assets/fonts/upbolters-regular-italic.Co2qM5xu.woff2"
+    ]
+  },
+  "src/translations/de.json": {
+    "file": "assets/js/de.Cg_o8k5S.js",
+    "name": "de",
+    "src": "src/translations/de.json",
+    "isDynamicEntry": true
+  },
+  "style.css": {
+    "file": "assets/css/style.VNDblPjV.css",
+    "src": "style.css"
+  }
+}

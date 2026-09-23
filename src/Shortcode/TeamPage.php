@@ -4,6 +4,7 @@ namespace NabaHdwp\Shortcode;
 
 defined('ABSPATH') || exit;
 
+use NabaHdwp\Constant\PluginConstants;
 use NabaHdwp\Helper\TemplateEngine;
 use NabaHdwp\Model\Settings;
 use NabaHdwp\Service\VueService;
@@ -38,6 +39,7 @@ class TeamPage
 
             $data = [
               'sessionData' => $this->settings->getSessionInitialData(),
+              PluginConstants::INITIAL_DATA_KEY_GAMECENTER_BASE_URL => $this->settings->getGamecenterBaseUrl(),
               'divisionId' => $args['division'],
               'teamId' => $args['team'],
               'playerImagePath' => $args['image_path'],
@@ -46,7 +48,7 @@ class TeamPage
             ob_start();
 
             TemplateEngine::render('/templates/shortcodes/team-page.php', $data);
-            $this->vueService->enqueueAssets('compact');
+            $this->vueService->enqueueEmbedAssets();
 
             return ob_get_clean() ?: '';
         });

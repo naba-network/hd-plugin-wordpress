@@ -4,156 +4,80 @@ defined('ABSPATH') || exit;
 /**
  * @var string $form_action
  * @var string $portal_url
- * @var string $recheck_url
- * @var array{api_key: string} $form_data
- * @var array{group_name: string, option_api_key: string} $options
- * @var array{configured: bool, connected: bool, message: string, leagueCount: int, features: list<string>, httpError: ?string} $connection
- * @var array{plugin: array{version: string, updateAvailable: bool, latestVersion: ?string}, php: array{version: string, ok: bool, required: string}, wp: array{version: string}, build: array{app: bool, compact: bool}, referrer: string, shortcodes: list<string>} $diagnostics
+ * @var array{api_key: string, gamecenter_base_url: string} $form_data
+ * @var array{group_name: string, option_api_key: string, group_name_gamecenter: string, option_gamecenter_base_url: string} $options
  */
-
-/** Render an OK/warn/error status dot with a label. */
-$statusDot = static function (string $state, string $label): void {
-    printf(
-        '<span class="naba-hdwp-badge naba-hdwp-badge--%s">%s</span>',
-        esc_attr($state),
-        esc_html($label)
-    );
-};
 ?>
-<div class="naba-hdwp-admin-container">
+<div class="container-fluid px-0 py-3">
 
-  <div class="naba-hdwp-admin-panel">
-    <div class="naba-hdwp-admin-panel-header">Nova Stats HockeyData</div>
-    <div class="naba-hdwp-admin-panel-body">
-      <p>
+  <div class="card p-0 mb-4">
+    <div class="card-header">Nova Stats HockeyData</div>
+    <div class="card-body">
+      <p class="card-text">
         Leagues, seasons and your HockeyData credentials are managed in the Nova Stats
         client portal. This site only stores your personal API token.
       </p>
-      <a class="naba-hdwp-save-button" href="<?php echo esc_url($portal_url); ?>" target="_blank" rel="noopener">
+      <a class="btn btn-primary" href="<?php echo esc_url($portal_url); ?>" target="_blank" rel="noopener">
         Open client portal
       </a>
     </div>
   </div>
 
   <form action="<?php echo esc_attr($form_action); ?>" method="post">
-    <div class="naba-hdwp-admin-panel naba-hdwp-panel--spaced">
-      <div class="naba-hdwp-admin-panel-header">API Token</div>
-      <div class="naba-hdwp-admin-panel-body">
+    <div class="card p-0">
+      <div class="card-header">API Token</div>
+      <div class="card-body">
         <?php settings_fields($options['group_name']); ?>
 
-        <div class="naba-hdwp-panel-box">
-          <label for="naba-hdwp-api-token">API Token</label>
-          <div class="naba-hdwp-token-field">
+        <div class="mb-3">
+          <label for="naba-hdwp-api-token" class="form-label fw-bold">API Token</label>
+          <div class="input-group" style="max-width: 480px;">
             <input
               type="password"
+              class="form-control"
               id="naba-hdwp-api-token"
               name="<?php echo esc_attr($options['option_api_key']); ?>"
               value="<?php echo esc_attr($form_data['api_key']); ?>"
               autocomplete="off"
             >
-            <button type="button" class="naba-hdwp-button--default" data-naba-hdwp-toggle="naba-hdwp-api-token">
+            <button type="button" class="btn btn-outline-secondary" data-naba-hdwp-toggle="naba-hdwp-api-token">
               Show
             </button>
           </div>
         </div>
 
-        <button type="submit" id="submit" class="naba-hdwp-save-button">Save Token</button>
+        <button type="submit" id="submit" class="btn btn-primary">Save Token</button>
       </div>
     </div>
   </form>
 
-  <div class="naba-hdwp-admin-panel naba-hdwp-panel--spaced">
-    <div class="naba-hdwp-admin-panel-header">Status</div>
-    <div class="naba-hdwp-admin-panel-body">
+  <div class="card p-0 mt-4">
+    <div class="card-header">Gamecenter Link</div>
+    <div class="card-body">
+      <p class="card-text">
+        The page on this site where the Gamecenter shortcode (<code>[Naba-Hdwp-Gamecenter]</code>) is
+        placed. Set this once and the schedule slider and team page shortcodes will link back to it.
+        Leave empty to hide that link.
+      </p>
 
-      <h3>Connection</h3>
-      <?php if (!$connection['configured']) : ?>
-        <p class="naba-hdwp-status-row">
-          <?php $statusDot('warn', 'No token'); ?>
-          No API token configured yet. Paste your token above and save.
-        </p>
-      <?php elseif ($connection['httpError'] !== null) : ?>
-        <p class="naba-hdwp-status-row">
-          <?php $statusDot('error', 'Unreachable'); ?>
-          Could not reach the Nova Stats backend: <?php echo esc_html($connection['httpError']); ?>
-        </p>
-      <?php elseif ($connection['connected']) : ?>
-        <p class="naba-hdwp-status-row">
-          <?php $statusDot('ok', 'Connected'); ?>
-          Token valid — <?php echo (int) $connection['leagueCount']; ?> league(s) configured.
-        </p>
-        <?php if ($connection['features'] !== []) : ?>
-          <p>Active features: <code><?php echo esc_html(implode(', ', $connection['features'])); ?></code></p>
-        <?php endif; ?>
-      <?php else : ?>
-        <p class="naba-hdwp-status-row">
-          <?php $statusDot('error', 'Rejected'); ?>
-          Backend rejected the token: <?php echo esc_html($connection['message']); ?>
-        </p>
-        <p class="naba-hdwp-hint">
-          Tip: make sure the referrer configured in the client portal matches this site
-          (<code><?php echo esc_html($diagnostics['referrer']); ?></code>).
-        </p>
-      <?php endif; ?>
+      <form action="<?php echo esc_attr($form_action); ?>" method="post">
+        <?php settings_fields($options['group_name_gamecenter']); ?>
 
-      <p><a class="naba-hdwp-button--default" href="<?php echo esc_url($recheck_url); ?>">Re-check</a></p>
+        <div class="mb-3">
+          <label for="naba-hdwp-gamecenter-base-url" class="form-label fw-bold">Gamecenter page URL</label>
+          <input
+            type="url"
+            class="form-control"
+            id="naba-hdwp-gamecenter-base-url"
+            name="<?php echo esc_attr($options['option_gamecenter_base_url']); ?>"
+            value="<?php echo esc_attr($form_data['gamecenter_base_url']); ?>"
+            placeholder="https://example.com/gamecenter"
+            style="max-width: 480px;"
+          >
+        </div>
 
-      <hr>
-
-      <h3>Diagnostics</h3>
-      <table class="naba-hdwp-diagnostics">
-        <tbody>
-          <tr>
-            <th>Plugin version</th>
-            <td>
-              <?php echo esc_html($diagnostics['plugin']['version']); ?>
-              <?php if ($diagnostics['plugin']['updateAvailable']) : ?>
-                <?php $statusDot('warn', 'Update: ' . (string) $diagnostics['plugin']['latestVersion']); ?>
-              <?php else : ?>
-                <?php $statusDot('ok', 'Up to date'); ?>
-              <?php endif; ?>
-            </td>
-          </tr>
-          <tr>
-            <th>PHP version</th>
-            <td>
-              <?php echo esc_html($diagnostics['php']['version']); ?>
-              <?php if ($diagnostics['php']['ok']) : ?>
-                <?php $statusDot('ok', 'OK'); ?>
-              <?php else : ?>
-                <?php $statusDot('error', 'Requires ' . $diagnostics['php']['required'] . '+'); ?>
-              <?php endif; ?>
-            </td>
-          </tr>
-          <tr>
-            <th>WordPress version</th>
-            <td><?php echo esc_html($diagnostics['wp']['version']); ?></td>
-          </tr>
-          <tr>
-            <th>Frontend build</th>
-            <td>
-              <?php if ($diagnostics['build']['app'] && $diagnostics['build']['compact']) : ?>
-                <?php $statusDot('ok', 'Present'); ?>
-              <?php else : ?>
-                <?php $statusDot('error', 'Missing — reinstall the plugin'); ?>
-              <?php endif; ?>
-            </td>
-          </tr>
-          <tr>
-            <th>Site referrer</th>
-            <td><code><?php echo esc_html($diagnostics['referrer']); ?></code></td>
-          </tr>
-          <tr>
-            <th>Shortcodes</th>
-            <td>
-              <?php foreach ($diagnostics['shortcodes'] as $shortcode) : ?>
-                <code>[<?php echo esc_html($shortcode); ?>]</code><br>
-              <?php endforeach; ?>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
     </div>
   </div>
 

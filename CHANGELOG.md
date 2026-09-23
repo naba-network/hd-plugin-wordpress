@@ -2,6 +2,55 @@
 
 ## Unreleased
 
+* [BUGFIX] The Debug page's "Frontend assets" diagnostic (`StatusService::getDiagnostics()['embed']`)
+  reported the hardcoded production CDN host even when the local/staging
+  `NABA_HDWP_EMBED_CDN_HOST` override was active, instead of the host `VueService` actually loads
+  from. `StatusService` now has its own `getEmbedCdnHost()` (mirroring `VueService`'s) that resolves
+  the same override, matching how `getApiBaseUrl()` already resolves `NABA_HDWP_API_BASE_URL`.
+* [BREAKING] All three shortcodes now load the Gamecenter widget's `embed` build from the Cloudflare
+  CDN (`https://cdn.statistics.stream`, pinned to `latest`) instead of a `frontend/` directory
+  bundled into the plugin at build time. `VueService::enqueueAssets()` (manifest-based, per
+  `app`/`compact` build type) was replaced by `enqueueEmbedAssets()`; the shortcode templates now
+  render the `<nova-stats-gamecenter>`/`<nova-stats-schedule-slider>`/`<nova-stats-team-page>`
+  custom elements instead of the old `#app`/`#appWpc` SPA mount markup. Removed the
+  `@naba-network/hd-vue-gamecenter` npm dependency, the `frontend:*`/`link:local` scripts, and the
+  vendored `frontend/` directory. New optional `NABA_HDWP_EMBED_CDN_HOST` wp-config define for
+  local/staging testing. See [docs/cdn-embed-assets.md](docs/cdn-embed-assets.md).
+* [BUGFIX] `PluginConstants::NOVA_STATS_API_BASE_URL` now points at `https://nova-stats.com` instead
+  of the retired `https://datahub.h-sc.at`. See `docs/admin-area.md`.
+* [FEATURE] Added a "Gamecenter Link" field to the Configuration page (`templates/admin/admin.php`,
+  new `Settings::FIELD_GAMECENTER_BASE_URL` / `getGamecenterBaseUrl()`), so the page URL where
+  `[Naba-Hdwp-Gamecenter]` is placed only needs to be set once. Registered under its own settings
+  group (`Settings::DB_GROUP_NAME_GAMECENTER`), not the API token's group — the field is saved from
+  a separate `<form>`, and sharing a group across two independent forms would make saving either one
+  reset the other to empty (WordPress's `options.php` resets every option in the *submitted* group
+  that isn't present in that form's `$_POST`). All three shortcode templates now also inject it as
+  `window.initialData.gamecenterBaseUrl` (via `PluginConstants::INITIAL_DATA_KEY_GAMECENTER_BASE_URL`);
+  the Gamecenter widget's schedule slider and team page shortcodes use it to link back to the main
+  Gamecenter. See [docs/reusable-initial-data.md](docs/reusable-initial-data.md).
+* [ENHANCEMENT] Migrated the Configuration and Debug admin pages
+  (`templates/admin/admin.php`, `templates/admin/debug.php`) from custom CSS to Bootstrap 5.3.8
+  (already bundled locally at `admin/vendor/bootstrap.min.css` and already used by the
+  Documentation page), for visual consistency across all three admin pages and to drop the
+  custom purple headers / green buttons in favor of Bootstrap's default theme. Deleted
+  `admin/css/admin-base-styles.css` and `admin/css/admin-settings.css` and their
+  `wp_enqueue_style()` calls in `AdminController.php`; Bootstrap CSS is now enqueued on all
+  `naba_hdwp_options*` admin pages. The Debug page's two-card row now uses Bootstrap's grid
+  (`row`/`col-lg-6`) instead of the removed `.naba-hdwp-row`/`.naba-hdwp-col-6` classes. All
+  `.card` elements use `p-0` to remove Bootstrap's default card padding (the card-header/
+  card-body already provide their own).
+* [ENHANCEMENT] Moved the **Status** panel (connection check + diagnostics) from the Configuration
+  page to the `WP_DEBUG`-only Debug page, next to the raw token-validation response. Both are now
+  rendered as cards in a responsive row (`templates/admin/debug.php`, Bootstrap's `row` /
+  `col-lg-6` / `col-12` grid classes): side by side (`col-lg-6` each) from the `lg` breakpoint up,
+  stacking to full width (`col-12`) below it (<992px).
+* [BUGFIX] The Debug page's root wrapper (`templates/admin/debug.php`) lost WordPress core's
+  `wrap` class during the Bootstrap migration, regressing standard admin-page spacing/notice
+  placement; it's now `class="wrap container-fluid px-0 py-3"`. Also removed a dead
+  `$forceRefresh` computation in `AdminController::naba_hdwp_admin_settings_page()` left over from
+  when the Status/connection check lived on the Configuration page — it was unused there (the
+  real one lives in `naba_hdwp_admin_settings_overview()`) and could needlessly trigger
+  `check_admin_referer()`'s die-on-failed-nonce behavior for a stale query string.
 * [BUGFIX] The Gamecenter shortcode now mounts `<v-app><router-view /></v-app>` instead of `<l-gamecenter />` (`templates/shortcodes/gamecenter.php`), and the ScheduleSlider/TeamPage shortcodes now wrap their component in `<v-app>`. `<v-app>` provides the Vuetify overlay container that dropdowns/dialogs need to open, and mounting `<router-view />` (rather than the layout component directly) avoids a duplicated layout shell, since `l-gamecenter` is itself the `/gc` route component in the widget.
 * [BUGFIX] The admin connection check reported "no leagues" for a valid token even when leagues were configured. The backend wraps API payloads in a `{ data, notifications }` envelope (`ApiResponseWrapperSubscriber`), but `StatusService::requestValidation()` read `leagues`/`message`/`features` at the top level. It now unwraps `data` (falling back to the top level if the envelope is absent). Added a regression test for the enveloped response.
 * [FEATURE] Local end-to-end testing support via opt-in wp-config defines (all absent in production, so production behaviour is unchanged; see `docs/local-development.md` + `docs/local-update-testing.md`):
