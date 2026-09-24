@@ -50,13 +50,6 @@ interface PluginConstants
     public const string INITIAL_DATA_KEY_API_BASE_URL = 'novaStatsApiUrl';
     public const string INITIAL_DATA_KEY_HOCKEYDATA_URL = 'hockeyDataApiUrl';
 
-    /**
-     * window.initialData key for the host's own Gamecenter page URL (naba-hdwp-widgets
-     * config.ts's `getGamecenterBaseUrl()`), read by the schedule slider/team page widgets to
-     * link back to it. Reusable/set-once, unlike the shortcodes' own per-instance attributes.
-     */
-    public const string INITIAL_DATA_KEY_GAMECENTER_BASE_URL = 'gamecenterBaseUrl';
-
     /** Minimum PHP version the plugin requires (see plugin.php header). */
     public const string MIN_PHP_VERSION = '8.3';
 }

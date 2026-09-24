@@ -77,13 +77,10 @@ class AdminController
           'portal_url' => $this->statusService->getClientPortalUrl(),
           'form_data' => [
             'api_key' => $this->settingsModel->getApiKey(),
-            'gamecenter_base_url' => $this->settingsModel->getGamecenterBaseUrl(),
           ],
           'options' => [
             'group_name' => Settings::DB_GROUP_NAME,
             'option_api_key' => Settings::FIELD_API_KEY,
-            'group_name_gamecenter' => Settings::DB_GROUP_NAME_GAMECENTER,
-            'option_gamecenter_base_url' => Settings::FIELD_GAMECENTER_BASE_URL,
           ],
         ];
 

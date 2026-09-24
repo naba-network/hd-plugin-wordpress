@@ -4,17 +4,18 @@
 
 The plugin admin area (**Gamecenter** menu, icon `admin/nova-stats-brand-logo-monochrom.svg`, inlined
 as a `data:image/svg+xml` icon_url so WordPress sizes it like a dashicon) is intentionally minimal.
-All league/season
-configuration and the HockeyData credentials live in the **Nova Stats client portal**; the
-WordPress site stores only the account **API token**. The Gamecenter Vue app reads that token
-and fetches everything else (leagues, seasons, per-team HockeyData credentials, feature flags)
-from the Nova Stats backend at runtime.
+All league/season configuration, the HockeyData credentials and the Gamecenter page URL
+(`clientConfig.gamecenterHostUrl`, GameCenter → Configuration) live in the **Nova Stats client
+portal**; the WordPress site stores only the account **API token**. The Gamecenter Vue app reads
+that token and fetches everything else (leagues, seasons, per-team HockeyData credentials, feature
+flags, the client config) from the Nova Stats backend at runtime — see `naba-hdwp-widgets`'s
+`docs/gamecenter-client-config.md`.
 
 ## Pages
 
 ### Configuration (`Gamecenter` → `Configuration`)
 
-Three blocks, rendered by `templates/admin/admin.php`:
+Two blocks, rendered by `templates/admin/admin.php`:
 
 1. **Client portal link** — button opening the locale-aware portal URL
    (`https://nova-stats.com/{de|en}/client-portal`). Locale is derived from `get_locale()`.
@@ -22,11 +23,10 @@ Three blocks, rendered by `templates/admin/admin.php`:
    Settings API option `nova_stats_db_setting__api_key` (group `nova_stats_db_settings_group`,
    sanitized with `sanitize_text_field`). Saving posts to `options.php` — WordPress core handles
    the nonce.
-3. **Gamecenter Link form** — a single URL field bound to the Settings API option
-   `nova_stats_db_setting__gamecenter_base_url` (same group, sanitized with `sanitize_url`): the page
-   on this site where `[Gamecenter]` is placed, so the schedule slider and team page
-   shortcodes can link back to it. See
-   [Reusable initial data — Gamecenter link](reusable-initial-data.md).
+
+A previous version of this page also had a "Gamecenter Link" form (a manually-entered URL the
+schedule slider/team page shortcodes linked back to). That field was removed: the URL now comes from
+the Nova Stats backend's `clientConfig.gamecenterHostUrl` instead, set once in the client portal.
 
 Styled with Bootstrap 5.3.8 (`admin/vendor/bootstrap.min.css`, vendored locally) instead of a
 custom stylesheet — see [Styling](#styling) below.
@@ -94,6 +94,4 @@ Defined in `src/Constant/PluginConstants.php`:
 
 `Settings::getSessionInitialData()` returns `['apiToken' => <token>]`, injected as
 `window.initialData.session` by the shortcode templates. The frontend store reads
-`session.apiToken`. Every shortcode template also injects
-`Settings::getGamecenterBaseUrl()` as `window.initialData.gamecenterBaseUrl` (see
-[Reusable initial data — Gamecenter link](reusable-initial-data.md)).
+`session.apiToken` and fetches everything else, including the client config, from the backend.

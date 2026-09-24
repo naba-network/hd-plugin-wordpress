@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+* [BREAKING] Removed the "Gamecenter Link" admin setting (`Settings::getGamecenterBaseUrl()`,
+  `FIELD_GAMECENTER_BASE_URL`, its admin card in the Configuration page). The schedule
+  slider/team page/Gamecenter widgets now get their "link back to the main Gamecenter" URL directly
+  from the Nova Stats backend (`clientConfig.gamecenterHostUrl`) instead of this manually-entered
+  field. Set it once in the Nova Stats client portal's GameCenter → Configuration page instead; the
+  old option is deleted on uninstall.
 * [ENHANCEMENT] The Gamecenter admin menu now uses the Nova Stats brand logo
   (`admin/nova-stats-brand-logo-monochrom.svg`) as its icon instead of the default dashicon,
   inlined as a base64 `data:image/svg+xml` icon_url (`AdminController::getMenuIconDataUri()`) so

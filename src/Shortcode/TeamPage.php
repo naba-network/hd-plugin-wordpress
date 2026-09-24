@@ -4,7 +4,6 @@ namespace NovaStats\Gamecenter\Shortcode;
 
 defined('ABSPATH') || exit;
 
-use NovaStats\Gamecenter\Constant\PluginConstants;
 use NovaStats\Gamecenter\Helper\TemplateEngine;
 use NovaStats\Gamecenter\Model\Settings;
 use NovaStats\Gamecenter\Service\VueService;
@@ -39,7 +38,6 @@ class TeamPage
 
             $data = [
               'sessionData' => $this->settings->getSessionInitialData(),
-              PluginConstants::INITIAL_DATA_KEY_GAMECENTER_BASE_URL => $this->settings->getGamecenterBaseUrl(),
               'divisionId' => $args['division'],
               'teamId' => $args['team'],
               'playerImagePath' => $args['image_path'],
