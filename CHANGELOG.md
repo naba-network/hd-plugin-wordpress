@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* [BUGFIX] `generate-test.php` (local VueService test page) called the removed
+  `VueService::enqueueAssets('app')` and crashed. It now calls `enqueueEmbedAssets()` and renders a
+  `<nova-stats-gamecenter>` element instead of the old `#app` mount.
 * [BREAKING] Removed the "Gamecenter Link" admin setting (`Settings::getGamecenterBaseUrl()`,
   `FIELD_GAMECENTER_BASE_URL`, its admin card in the Configuration page). The schedule
   slider/team page/Gamecenter widgets now get their "link back to the main Gamecenter" URL directly

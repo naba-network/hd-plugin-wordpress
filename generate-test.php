@@ -55,11 +55,8 @@ use NovaStats\Gamecenter\Service\VueService;
 
 $service = new VueService();
 
-// Test the full app enqueue
-$service->enqueueAssets('app');
-
-// Also test the compact app enqueue just for demonstration
-// $service->enqueueAssets('compact');
+// Enqueue the CDN embed build, as every shortcode does
+$service->enqueueEmbedAssets();
 
 $html = "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <title>VueService Test</title>\n";
 
@@ -77,7 +74,7 @@ foreach ($head_actions as $action) {
     $html .= "    " . trim($output) . "\n";
 }
 
-$html .= "</head>\n<body>\n    <h1>VueService Local Test</h1>\n    <p>Check the source to see the generated script and style tags.</p>\n    <div id=\"app\"></div>\n\n";
+$html .= "</head>\n<body>\n    <h1>VueService Local Test</h1>\n    <p>Check the source to see the generated script and style tags.</p>\n    <nova-stats-gamecenter></nova-stats-gamecenter>\n\n";
 
 // Render scripts
 foreach ($scripts as $handle => $script) {
