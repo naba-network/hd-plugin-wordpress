@@ -4,7 +4,7 @@
 **Tags:** hockey, stats, gamecenter, widget  
 **Requires at least:** 5.8  
 **Tested up to:** 6.4  
-**Stable tag:** 0.0.4  
+**Stable tag:** 0.0.5  
 **Requires PHP:** 8.3  
 **License:** MIT  
 **License URI:** https://opensource.org/licenses/MIT  

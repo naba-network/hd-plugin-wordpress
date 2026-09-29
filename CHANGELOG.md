@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+### v0.0.5 (2026-09-29)
+
 * [BUGFIX] `generate-test.php` (local VueService test page) called the removed
   `VueService::enqueueAssets('app')` and crashed. It now calls `enqueueEmbedAssets()` and renders a
   `<nova-stats-gamecenter>` element instead of the old `#app` mount.
