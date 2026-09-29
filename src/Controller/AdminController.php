@@ -32,26 +32,34 @@ class AdminController
         // Bundled locally (admin/vendor/) instead of loading from a CDN.
         // Used on all plugin admin pages (Configuration, Debug).
         wp_enqueue_style('nova-stats-bootstrap', NOVA_STATS_PLUGIN_URL . 'admin/vendor/bootstrap.min.css', [], '5.3.8');
+        // Aligns background, cards and buttons with the client portal; loaded after Bootstrap.
+        wp_enqueue_style('nova-stats-admin', NOVA_STATS_PLUGIN_URL . 'admin/admin.css', ['nova-stats-bootstrap'], NOVA_STATS_VERSION);
     }
 
     public function nova_stats_admin_menu(): void
     {
         add_menu_page(
             'Gamecenter Configuration',
-            'nova stats',
+            'nova·stats',
             'edit_theme_options',
             'nova_stats_options',
             [$this, 'nova_stats_admin_settings_page'],
             $this->getMenuIconDataUri()
         );
+        // WordPress hides the submenu entirely when it has exactly one item whose slug
+        // matches the parent's, so "Setup" needs its own slug to stay visible once the
+        // "Debug" item isn't registered (WP_DEBUG off, i.e. production).
         add_submenu_page(
             'nova_stats_options',
-            'nova stats - Setup',
+            'nova·stats – Setup',
             'Setup',
             'edit_theme_options',
-            'nova_stats_options',
+            'nova_stats_options_setup',
             [$this, 'nova_stats_admin_settings_page']
         );
+        // Adding "Setup" makes WordPress auto-insert a duplicate "nova·stats" entry for the
+        // parent slug (same page); drop it. The top-level menu then links to "Setup".
+        remove_submenu_page('nova_stats_options', 'nova_stats_options');
         // The debug page is a development aid; only expose it when WP_DEBUG is on.
         if (defined('WP_DEBUG') && WP_DEBUG) {
             add_submenu_page(
@@ -75,6 +83,7 @@ class AdminController
           'plugin_path' => NOVA_STATS_PLUGIN_URL,
           'form_action' => 'options.php',
           'portal_url' => $this->statusService->getClientPortalUrl(),
+          'connection' => $this->statusService->checkConnection(),
           'form_data' => [
             'api_key' => $this->settingsModel->getApiKey(),
           ],
@@ -99,7 +108,6 @@ class AdminController
             && check_admin_referer('nova_stats_recheck');
 
         $data = [
-          'raw' => $this->statusService->getRawValidation(),
           'recheck_url' => wp_nonce_url(
               add_query_arg('nova_stats_recheck', '1', admin_url('admin.php?page=nova_stats_options_overview')),
               'nova_stats_recheck'

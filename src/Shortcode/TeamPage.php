@@ -10,7 +10,7 @@ use NovaStats\Gamecenter\Service\VueService;
 
 class TeamPage
 {
-    public const SHORTCODE_NAME = 'Gamecenter-Team-Page';
+    public const SHORTCODE_NAME = 'Nova-Stats-Team-Page';
 
     private VueService $vueService;
     private Settings $settings;

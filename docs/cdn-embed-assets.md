@@ -1,6 +1,6 @@
 # CDN embed assets
 
-The three shortcodes (`[Gamecenter]`, `[Gamecenter-Schedule-Slider]`, `[Gamecenter-Team-Page]`)
+The three shortcodes (`[Nova-Stats-Gamecenter]`, `[Nova-Stats-Schedule-Slider]`, `[Nova-Stats-Team-Page]`)
 now load the Gamecenter widget from the same Cloudflare Worker + R2 CDN
 (`https://cdn.statistics.stream`) the client portal's manual embed snippet already uses, instead of a
 `frontend/` directory bundled into the plugin's `.zip` at build time. See
@@ -53,6 +53,5 @@ production behaviour is unchanged.
   code-split chunks to preload.
 - The `@naba-network/hd-vue-gamecenter` npm dependency, the `frontend:*`/`link:local` npm scripts,
   and the vendored `frontend/` directory (dropped from `.distinclude`/`.gitignore`).
-- The admin Debug page's "Frontend build" check (local `manifest.json` presence) — replaced with a
-  "Frontend assets" row showing the CDN host/version currently in use
-  (`StatusService::getDiagnostics()['embed']`).
+- The admin Debug page's "Frontend build" check (local `manifest.json` presence). Its successor, a
+  "Frontend assets" row showing the CDN host/version, was later removed too.

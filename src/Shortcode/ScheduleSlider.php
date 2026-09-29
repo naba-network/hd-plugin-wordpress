@@ -10,7 +10,7 @@ use NovaStats\Gamecenter\Service\VueService;
 
 class ScheduleSlider
 {
-    public const SHORTCODE_NAME = 'Gamecenter-Schedule-Slider';
+    public const SHORTCODE_NAME = 'Nova-Stats-Schedule-Slider';
     private VueService $vueService;
     private Settings $settings;
 

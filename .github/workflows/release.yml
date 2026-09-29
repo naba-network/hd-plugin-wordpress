@@ -12,26 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      packages: read
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: npm
-          registry-url: 'https://npm.pkg.github.com'
-
-      - name: Install frontend dependencies
-        run: npm ci
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build frontend
-        run: npm run build
 
       - name: Setup PHP 8.3
         uses: shivammathur/setup-php@v2
@@ -47,11 +31,16 @@ jobs:
           chmod +x build.sh
           ./build.sh
 
+      # Upload under a version-less name so the client portal can link to
+      # releases/latest/download/novastats-hockeydata.zip (a direct file
+      # download). Keep it the only asset: the update checker installs the
+      # first release asset.
       - name: Identify the built zip file
         id: find_zip
         run: |
           ZIP_FILE=$(ls *.zip | head -n 1)
-          echo "zip_file=${ZIP_FILE}" >> $GITHUB_OUTPUT
+          mv "${ZIP_FILE}" novastats-hockeydata.zip
+          echo "zip_file=novastats-hockeydata.zip" >> $GITHUB_OUTPUT
 
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v1

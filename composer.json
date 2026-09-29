@@ -1,7 +1,7 @@
 {
     "name": "nachbauer/hd-plugin-wordpress",
     "description": "The hockey game center widget for WordPress.",
-    "license": "MIT",
+    "license": "GPL-2.0-or-later",
     "type": "wordpress-plugin",
     "config": {
         "platform": {

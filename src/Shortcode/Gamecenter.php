@@ -10,7 +10,7 @@ use NovaStats\Gamecenter\Service\VueService;
 
 class Gamecenter
 {
-    public const SHORTCODE_NAME = 'Gamecenter';
+    public const SHORTCODE_NAME = 'Nova-Stats-Gamecenter';
 
     private VueService $vueService;
     private Settings $settings;

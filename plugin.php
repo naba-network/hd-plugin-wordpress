@@ -10,8 +10,8 @@
  * Text Domain: hd-plugin-wordpress
  * Requires PHP: 8.3
  * Requires at least: 5.8
- * License: MIT
- * License URI: https://opensource.org/licenses/MIT
+ * License: GPL-2.0-or-later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
 
 namespace NovaStats\Gamecenter;

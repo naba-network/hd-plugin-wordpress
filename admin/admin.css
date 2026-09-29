@@ -1,0 +1,65 @@
+/*
+ * Aligns the plugin admin pages with the nova·stats client portal
+ * (nova-stats-client-portal: $color-background, card() mixin, vuetify 'primary').
+ * Only enqueued on nova_stats_options* pages, after Bootstrap.
+ */
+
+html,
+body {
+  background: #f4f4f4;
+}
+
+.nova-stats-admin .card {
+  --bs-card-bg: #ffffff;
+  --bs-card-cap-bg: #ffffff;
+  --bs-card-border-color: #e1e2e3;
+  --bs-card-border-radius: 12px;
+  --bs-card-inner-border-radius: 11px;
+
+  box-shadow: 0 1px 5px -4px rgb(36 36 36 / 70%), 0 4px 8px rgb(36 36 36 / 5%);
+}
+
+.nova-stats-admin .card-header {
+  font-weight: 700;
+  padding: 16px;
+}
+
+.nova-stats-admin .card-body {
+  padding: 24px;
+}
+
+.nova-stats-admin .btn-dark {
+  --bs-btn-bg: #212121;
+  --bs-btn-border-color: #212121;
+  --bs-btn-hover-bg: #000000;
+  --bs-btn-hover-border-color: #000000;
+  --bs-btn-active-bg: #000000;
+  --bs-btn-active-border-color: #000000;
+}
+
+.nova-stats-admin .btn-outline-dark {
+  --bs-btn-color: #212121;
+  --bs-btn-border-color: #212121;
+  --bs-btn-hover-bg: #212121;
+  --bs-btn-hover-border-color: #212121;
+  --bs-btn-active-bg: #000000;
+  --bs-btn-active-border-color: #000000;
+}
+
+/* API token connection status avatar (Setup page); colors = portal vuetify success/error/warning/secondary. */
+.nova-stats-connection__avatar {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  inline-size: 56px;
+  block-size: 56px;
+  border-radius: 50%;
+  color: var(--nova-stats-connection-color);
+  background: color-mix(in srgb, var(--nova-stats-connection-color) 12%, transparent);
+}
+
+.nova-stats-connection--valid { --nova-stats-connection-color: #0b7a4b; }
+.nova-stats-connection--invalid { --nova-stats-connection-color: #c0102a; }
+.nova-stats-connection--unreachable { --nova-stats-connection-color: #a5590a; }
+.nova-stats-connection--missing { --nova-stats-connection-color: #4e6274; }

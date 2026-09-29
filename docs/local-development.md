@@ -89,7 +89,7 @@ define is absent), so editing plugin PHP/templates is live immediately, same as 
 5. **Token:** create a `GameCenterApiToken` in the backend (register via the client
    portal + `POST /api/v1/api-keys`, or `ddev import-project` for real data). Paste it
    into the plugin's admin Configuration page.
-6. **Render:** add the `[Gamecenter]` shortcode to a page and open it.
+6. **Render:** add the `[Nova-Stats-Gamecenter]` shortcode to a page and open it.
 
 ## Verify
 

@@ -6,9 +6,6 @@ defined('ABSPATH') || exit;
 
 use NovaStats\Gamecenter\Constant\PluginConstants;
 use NovaStats\Gamecenter\Model\Settings;
-use NovaStats\Gamecenter\Shortcode\Gamecenter;
-use NovaStats\Gamecenter\Shortcode\ScheduleSlider;
-use NovaStats\Gamecenter\Shortcode\TeamPage;
 
 /**
  * Builds the data for the admin status/health panel:
@@ -64,41 +61,11 @@ class StatusService
     }
 
     /**
-     * The decoded backend response body, for the WP_DEBUG raw-dump page.
-     *
-     * @return array{url: string, httpError: ?string, status: ?int, body: mixed}
-     */
-    public function getRawValidation(): array
-    {
-        $token = $this->settings->getApiKey();
-        $url = $this->getValidationUrl($token);
-
-        if ($token === '') {
-            return ['url' => $url, 'httpError' => 'No API token configured.', 'status' => null, 'body' => null];
-        }
-
-        $response = $this->remoteGet($url);
-
-        if (is_wp_error($response)) {
-            return ['url' => $url, 'httpError' => $response->get_error_message(), 'status' => null, 'body' => null];
-        }
-
-        return [
-          'url' => $url,
-          'httpError' => null,
-          'status' => (int) wp_remote_retrieve_response_code($response),
-          'body' => json_decode(wp_remote_retrieve_body($response), true),
-        ];
-    }
-
-    /**
      * @return array{
      *   plugin: array{version: string, updateAvailable: bool, latestVersion: ?string},
      *   php: array{version: string, ok: bool, required: string},
      *   wp: array{version: string},
-     *   embed: array{host: string, version: string},
-     *   referrer: string,
-     *   shortcodes: list<string>
+     *   referrer: string
      * }
      */
     public function getDiagnostics(): array
@@ -111,16 +78,7 @@ class StatusService
             'required' => PluginConstants::MIN_PHP_VERSION,
           ],
           'wp' => ['version' => get_bloginfo('version')],
-          'embed' => [
-            'host' => $this->getEmbedCdnHost(),
-            'version' => PluginConstants::EMBED_CDN_VERSION,
-          ],
           'referrer' => home_url('/'),
-          'shortcodes' => [
-            Gamecenter::SHORTCODE_NAME,
-            ScheduleSlider::SHORTCODE_NAME,
-            TeamPage::SHORTCODE_NAME,
-          ],
         ];
     }
 
@@ -179,19 +137,6 @@ class StatusService
     private function getValidationUrl(string $token): string
     {
         return $this->getApiBaseUrl() . PluginConstants::VALIDATE_TOKEN_PATH . '?token=' . rawurlencode($token);
-    }
-
-    /**
-     * The optional NOVA_STATS_LOCAL_EMBED_CDN_HOST define (local/staging testing) repoints the
-     * embed build at a locally-served one instead of the production CDN; production has no
-     * define and keeps the hardcoded CDN host. Mirrors `VueService::getEmbedCdnHost()` so the
-     * Debug page's "Frontend assets" diagnostic reports the host actually in use.
-     */
-    private function getEmbedCdnHost(): string
-    {
-        $override = defined(PluginConstants::LOCAL_EMBED_CDN_HOST_DEFINE) ? constant(PluginConstants::LOCAL_EMBED_CDN_HOST_DEFINE) : null;
-
-        return is_string($override) && $override !== '' ? $override : PluginConstants::EMBED_CDN_HOST;
     }
 
     private function getApiBaseUrl(): string

@@ -2,8 +2,53 @@
 
 ## Unreleased
 
+* [ENHANCEMENT] Relicensed the plugin from MIT to **GPL-2.0-or-later** (the WordPress plugin standard):
+  `LICENSE` now holds the GPLv2 text with the copyright notice; plugin header, README header,
+  `composer.json` and `package.json` updated. Bundled third-party code (`plugin-update-checker`,
+  Bootstrap) keeps its own MIT license.
+
+* [ENHANCEMENT] The release zip only contains runtime files: the developer `README.md` and the
+  internal `CHANGELOG.md` are no longer packed (`.distinclude`). See [docs/build.md](docs/build.md).
+* [BUGFIX] The release workflow no longer runs `npm ci` / `npm run build` — the `build` script no
+  longer exists since the frontend was removed, which broke the CI build. Dropped the Node setup and the
+  now-unneeded `packages: read` permission.
+
+* [ENHANCEMENT] `npm run release [major|minor|patch|<version>]` now commits (`Release v<version>`) and
+  tags `v<version>` like `npm version` (clean working tree required, nothing pushed). Pass
+  `--no-git-tag-version` to only bump the files. Unknown arguments and unchanged versions are rejected
+  with a usage message; a failed file update exits non-zero. See [docs/release.md](docs/release.md).
+
+* [ENHANCEMENT] The release workflow now uploads the plugin zip under the fixed name
+  `novastats-hockeydata.zip` (instead of `novastats-hockeydata-<version>.zip`). This makes
+  `releases/latest/download/novastats-hockeydata.zip` a stable direct-download link to the newest build.
+
 ### v0.0.5 (2026-09-29)
 
+* [FEATURE] The Setup page now shows whether the saved API token works: a status avatar above the
+  token field (MDI `check-decagram` when valid, `lock` otherwise) plus a line of text, e.g.
+  "API token valid – connection established." / "API token invalid – not connected.", with
+  separate texts for "no token saved" and "backend unreachable". See [docs/admin-area.md](docs/admin-area.md).
+
+* [ENHANCEMENT] Slimmed down the admin Debug page: removed the "Raw Response" card, the "Active
+  features" line and the "Frontend assets"/"Shortcodes" diagnostics rows. Dropped the now-unused
+  `StatusService::getRawValidation()` and the `embed`/`shortcodes` keys of `getDiagnostics()`.
+
+* [BUGFIX] The admin submenu showed "nova·stats" and "Setup" as two entries for the same page.
+  The auto-inserted parent-slug duplicate is now removed; the top-level menu links to "Setup".
+
+* [ENHANCEMENT] Admin pages now match the client portal look: `#f4f4f4` page background, white
+  cards with the portal's border/radius/shadow, and black buttons (`btn-dark`/`btn-outline-dark`).
+  New theme layer `admin/admin.css`, enqueued after Bootstrap. See [docs/admin-area.md](docs/admin-area.md#styling).
+* [ENHANCEMENT] Admin copy follows `TERMINOLOGY.md`: "Nova Stats"/"nova stats" → `nova·stats`,
+  "HockeyData" → `hockeydata`, "GameCenter" → `Gamecenter`. The Debug page's no-token hint now
+  points to the "Setup" page (its actual menu name) instead of "Configuration".
+
+* [BUGFIX] The "Setup" admin submenu was invisible in production (`WP_DEBUG` off): WordPress hides
+  a submenu entirely when it has exactly one entry sharing the parent menu's slug, which is what
+  "Setup" did once the "Debug" submenu (only registered when `WP_DEBUG` is on) wasn't present.
+  `AdminController::nova_stats_admin_menu()` now registers "Setup" under its own slug
+  (`nova_stats_options_setup`) so it stays visible regardless of `WP_DEBUG`. See
+  [docs/admin-area.md](docs/admin-area.md).
 * [BUGFIX] `generate-test.php` (local VueService test page) called the removed
   `VueService::enqueueAssets('app')` and crashed. It now calls `enqueueEmbedAssets()` and renders a
   `<nova-stats-gamecenter>` element instead of the old `#app` mount.

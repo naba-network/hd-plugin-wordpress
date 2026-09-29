@@ -2,10 +2,9 @@
 defined('ABSPATH') || exit;
 
 /**
- * @var array{url: string, httpError: ?string, status: ?int, body: mixed} $raw
  * @var string $recheck_url
  * @var array{configured: bool, connected: bool, message: string, leagueCount: int, features: list<string>, httpError: ?string} $connection
- * @var array{plugin: array{version: string, updateAvailable: bool, latestVersion: ?string}, php: array{version: string, ok: bool, required: string}, wp: array{version: string}, embed: array{host: string, version: string}, referrer: string, shortcodes: list<string>} $diagnostics
+ * @var array{plugin: array{version: string, updateAvailable: bool, latestVersion: ?string}, php: array{version: string, ok: bool, required: string}, wp: array{version: string}, referrer: string} $diagnostics
  */
 
 /** Render an OK/warn/error status badge with a label. */
@@ -23,7 +22,7 @@ $statusDot = static function (string $state, string $label): void {
     );
 };
 ?>
-<div class="wrap container-fluid px-0 py-3">
+<div class="nova-stats-admin wrap container px-0 py-3">
 
   <h1>Gamecenter Debug</h1>
   <p>Visible only while <code>WP_DEBUG</code> is enabled.</p>
@@ -39,21 +38,18 @@ $statusDot = static function (string $state, string $label): void {
           <?php if (!$connection['configured']) : ?>
             <p class="d-flex align-items-center gap-2">
               <?php $statusDot('warn', 'No token'); ?>
-              No API token configured yet. Paste your token on the Configuration page and save.
+              No API token configured yet. Paste your token on the Setup page and save.
             </p>
           <?php elseif ($connection['httpError'] !== null) : ?>
             <p class="d-flex align-items-center gap-2">
               <?php $statusDot('error', 'Unreachable'); ?>
-              Could not reach the Nova Stats backend: <?php echo esc_html($connection['httpError']); ?>
+              Could not reach the nova·stats backend: <?php echo esc_html($connection['httpError']); ?>
             </p>
           <?php elseif ($connection['connected']) : ?>
             <p class="d-flex align-items-center gap-2">
               <?php $statusDot('ok', 'Connected'); ?>
               Token valid — <?php echo (int) $connection['leagueCount']; ?> league(s) configured.
             </p>
-            <?php if ($connection['features'] !== []) : ?>
-              <p>Active features: <code><?php echo esc_html(implode(', ', $connection['features'])); ?></code></p>
-            <?php endif; ?>
           <?php else : ?>
             <p class="d-flex align-items-center gap-2">
               <?php $statusDot('error', 'Rejected'); ?>
@@ -65,7 +61,7 @@ $statusDot = static function (string $state, string $label): void {
             </p>
           <?php endif; ?>
 
-          <p><a class="btn btn-sm btn-outline-secondary" href="<?php echo esc_url($recheck_url); ?>">Re-check</a></p>
+          <p><a class="btn btn-sm btn-outline-dark" href="<?php echo esc_url($recheck_url); ?>">Re-check</a></p>
 
           <hr>
 
@@ -99,47 +95,12 @@ $statusDot = static function (string $state, string $label): void {
                 <td><?php echo esc_html($diagnostics['wp']['version']); ?></td>
               </tr>
               <tr>
-                <th scope="row">Frontend assets</th>
-                <td>
-                  <code><?php echo esc_html($diagnostics['embed']['host']); ?></code>
-                  (<code><?php echo esc_html($diagnostics['embed']['version']); ?></code>)
-                </td>
-              </tr>
-              <tr>
                 <th scope="row">Site referrer</th>
                 <td><code><?php echo esc_html($diagnostics['referrer']); ?></code></td>
-              </tr>
-              <tr>
-                <th scope="row">Shortcodes</th>
-                <td>
-                  <?php foreach ($diagnostics['shortcodes'] as $shortcode) : ?>
-                    <code>[<?php echo esc_html($shortcode); ?>]</code><br>
-                  <?php endforeach; ?>
-                </td>
               </tr>
             </tbody>
           </table>
 
-        </div>
-      </div>
-    </div>
-
-    <div class="col-12 col-lg-6">
-      <div class="card p-0 h-100">
-        <div class="card-header">Raw Response</div>
-        <div class="card-body">
-          <p>Raw response of the token-validation request.</p>
-
-          <h3 class="h5">Request</h3>
-          <pre class="bg-light border rounded p-2"><code><?php echo esc_html($raw['url']); ?></code></pre>
-
-          <h3 class="h5">Response</h3>
-          <?php if ($raw['httpError'] !== null) : ?>
-            <p><strong>Error:</strong> <?php echo esc_html($raw['httpError']); ?></p>
-          <?php else : ?>
-            <p><strong>HTTP status:</strong> <?php echo esc_html((string) $raw['status']); ?></p>
-            <pre class="bg-light border rounded p-2"><code><?php echo esc_html((string) wp_json_encode($raw['body'], JSON_PRETTY_PRINT)); ?></code></pre>
-          <?php endif; ?>
         </div>
       </div>
     </div>

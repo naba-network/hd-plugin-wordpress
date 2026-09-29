@@ -32,7 +32,7 @@ GitHub path is used there unchanged.
 
    ```bash
    cd hd-plugin-wordpress
-   npm run release patch      # bump the version (or edit plugin.php manually)
+   npm run release patch --no-git-tag-version   # bump the version without commit/tag (or edit plugin.php manually)
    composer install --no-dev --optimize-autoloader
    ./build.sh                 # produces novastats-hockeydata-<version>.zip
    ```

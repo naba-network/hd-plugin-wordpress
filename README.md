@@ -6,8 +6,8 @@
 **Tested up to:** 6.4  
 **Stable tag:** 0.0.5  
 **Requires PHP:** 8.3  
-**License:** MIT  
-**License URI:** https://opensource.org/licenses/MIT  
+**License:** GPL-2.0-or-later  
+**License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 
 The hockey game center widget for WordPress.
 
@@ -42,13 +42,13 @@ To easily package a production-ready `.zip` release without any development file
 ./build.sh
 ```
 
-This will automatically include only the files and directories explicitly defined in `.distinclude`, install production dependencies, package the plugin, and then restore your local development dependencies.
+This will automatically include only the files and directories explicitly defined in `.distinclude`, install production dependencies, package the plugin, and then restore your local development dependencies. Only runtime files ship — no docs, changelog, tests or tooling. See [docs/build.md](docs/build.md).
 
 ## Automatic Updates & Deployment
 
 This plugin now features an integrated GitHub Actions build pipeline and automatic WordPress updates:
 
-- **Build Pipeline:** A GitHub Actions workflow (`.github/workflows/release.yml`) automatically triggers on new tags (e.g., `v1.0.0`) or GitHub releases. It builds the plugin using `build.sh` and attaches the final `.zip` as a release asset.
+- **Build Pipeline:** A GitHub Actions workflow (`.github/workflows/release.yml`) automatically triggers on new tags (e.g., `v1.0.0`) or GitHub releases. It builds the plugin using `build.sh` and attaches the final `.zip` as the only release asset under the fixed name `novastats-hockeydata.zip`, so `https://github.com/naba-network/hd-plugin-wordpress/releases/latest/download/novastats-hockeydata.zip` always downloads the newest build (used by the client portal's download button).
 - **Automatic Updates:** The plugin incorporates `plugin-update-checker` to connect directly to the GitHub repository (`naba-network/hd-plugin-wordpress`). Updates are installed from the built `.zip` release asset (release assets are enabled via `enableReleaseAssets()`), **not** from branch zipballs — those lack the gitignored `vendor/` build artifacts and would install a broken plugin. When a new release is available, it appears in the WordPress admin panel alongside standard plugin updates, allowing for seamless updates.
 - **Repository visibility:** The GitHub repository must be **public** for unauthenticated update checks. If the repository is (or becomes) private, define the constant `NOVA_STATS_GITHUB_TOKEN` in `wp-config.php` with a GitHub token that has read access to the repository; the updater passes it to `setAuthentication()` automatically. Never commit a token to the codebase.
 
@@ -73,14 +73,13 @@ npm run release [major | minor | patch | <version>]
 - `npm run release major` bumps the **major** version (e.g., `1.0.0` -> `2.0.0`).
 - `npm run release 2.5.0` sets the version explicitly to `2.5.0`.
 
-To automatically commit your changes with a clean release message ("Release v1.0.0"):
+Like `npm version`, it then commits the version files ("Release v1.0.0") and creates the tag `v1.0.0`
+(requires a clean git working tree; nothing is pushed). Push with `git push && git push origin tag v1.0.0`.
+Pass `--no-git-tag-version` to only update the files. See [docs/release.md](docs/release.md).
+
+For the manual flow (after `--no-git-tag-version`), commit and tag+push separately:
 
 ```bash
 npm run release:commit
-```
-
-To create and push a git tag matching the current version:
-
-```bash
 npm run release:tag
 ```
