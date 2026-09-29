@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Plugin Name: Gamecenter
- * Plugin URI:  https://nova-stats.com/
- * Description: The hockey game center widget for WordPress.
+ * Plugin Name: nova·stats Gamecenter
+ * Plugin URI:  https://nova-stats.com
+ * Description: The hockey gamecenter widget for WordPress.
  * Version:     1.0.0
- * Author:      Nachbauer GmbH
- * Author URI:  https://www.nachbauer.gmbh
+ * Author:      nova-stats.com
+ * Author URI:  https://www.nova-stats.com
  * Text Domain: hd-plugin-wordpress
  * Requires PHP: 8.3
  * Requires at least: 5.8
