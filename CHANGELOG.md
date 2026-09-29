@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+### v1.0.1 (2026-09-29)
+
 ### v1.0.0 (2026-09-29)
 
 * [ENHANCEMENT] Relicensed the plugin from MIT to **GPL-2.0-or-later** (the WordPress plugin standard):
