@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+### v1.0.0 (2026-09-29)
+
 * [ENHANCEMENT] Relicensed the plugin from MIT to **GPL-2.0-or-later** (the WordPress plugin standard):
   `LICENSE` now holds the GPLv2 text with the copyright notice; plugin header, README header,
   `composer.json` and `package.json` updated. Bundled third-party code (`plugin-update-checker`,
