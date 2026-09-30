@@ -8,6 +8,7 @@ defined('ABSPATH') || exit;
 </script>
 
 <nova-stats-team-page
+  league-id="<?php echo esc_attr($leagueId); ?>"
   division-id="<?php echo esc_html($divisionId); ?>"
   team-id="<?php echo esc_html($teamId); ?>"
   player-image-path="<?php echo esc_html($playerImagePath); ?>"

@@ -30,6 +30,7 @@ class TeamPage
     {
         add_shortcode($name, function (array $atts): string {
             $default_atts = [
+              'league' => '',
               'division' => '',
               'team' => '',
               'image_path' => '',
@@ -38,6 +39,7 @@ class TeamPage
 
             $data = [
               'sessionData' => $this->settings->getSessionInitialData(),
+              'leagueId' => $args['league'],
               'divisionId' => $args['division'],
               'teamId' => $args['team'],
               'playerImagePath' => $args['image_path'],

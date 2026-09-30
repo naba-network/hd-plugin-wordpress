@@ -7,4 +7,5 @@ One Markdown file per feature.
 - [Local update-flow testing](local-update-testing.md) — exercise the WordPress auto-update UI from a local metadata JSON instead of GitHub releases.
 - [Build (release zip)](build.md) — what `build.sh` packs: only runtime files from `.distinclude`, no dev/internal files.
 - [Release script](release.md) — `npm run release [major|minor|patch|<version>]` bumps the version, commits and tags like `npm version`.
+- [Team page shortcode](team-page-shortcode.md) — `[Nova-Stats-Team-Page]` attributes, incl. `league` (OpenDXP league ID) as the stable alternative to `team`/`division`.
 - [CDN embed assets](cdn-embed-assets.md) — the three shortcodes load the Gamecenter widget's `embed` build from the Cloudflare CDN instead of a bundled `frontend/` directory.
