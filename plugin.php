@@ -4,7 +4,7 @@
  * Plugin Name: nova·stats Gamecenter
  * Plugin URI:  https://nova-stats.com
  * Description: The hockey gamecenter widget for WordPress.
- * Version:     1.0.1
+ * Version:     1.1.0
  * Author:      nova-stats.com
  * Author URI:  https://www.nova-stats.com
  * Text Domain: hd-plugin-wordpress
@@ -58,7 +58,7 @@ class Plugin
 
     private function defineConstants(): void
     {
-        define('NOVA_STATS_VERSION', '1.0.1');
+        define('NOVA_STATS_VERSION', '1.1.0');
         define('NOVA_STATS_PLUGIN_NAME', 'hd-plugin-wordpress');
         define('NOVA_STATS_PLUGIN_URL', plugin_dir_url(__FILE__));
         define('NOVA_STATS_PLUGIN_PATH', plugin_dir_path(__FILE__));
